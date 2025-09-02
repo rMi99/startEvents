@@ -1,0 +1,256 @@
+@model IEnumerable<online_event_booking.Data.Entities.Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<!-- Hero Section -->
+<section class="hero-section" style="padding: 4rem 0; margin-top: -80px; padding-top: 8rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-2 mb-3">Discover Amazing Events</h1>
+                <p class="lead mb-4">Find the perfect event for you from our curated collection of concerts, theatre shows, and cultural experiences.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<div class="container">
+    <div class="search-section">
+        <h3 class="text-center mb-4">Find Your Perfect Event</h3>
+        <form asp-action="Search" method="get" class="row g-3">
+            <div class="col-md-3">
+                <label for="searchTerm" class="form-label">Event Name</label>
+                <input type="text" class="form-control" id="searchTerm" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Search events...">
+            </div>
+            <div class="col-md-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category">
+                    <option value="">All Categories</option>
+                    <option value="Concert" selected="@(ViewBag.Category == "Concert")">Concerts</option>
+                    <option value="Theatre" selected="@(ViewBag.Category == "Theatre")">Theatre</option>
+                    <option value="Cultural" selected="@(ViewBag.Category == "Cultural")">Cultural</option>
+                    <option value="Sports" selected="@(ViewBag.Category == "Sports")">Sports</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" name="date" value="@(ViewBag.Date?.ToString("yyyy-MM-dd"))">
+            </div>
+            <div class="col-md-2">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" value="@ViewBag.Location" placeholder="City">
+            </div>
+            <div class="col-md-1">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Events Grid -->
+<section class="py-5">
+    <div class="container">
+        @if (Model.Any())
+        {
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h3>@Model.Count() Events Found</h3>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary active" onclick="toggleView('grid')">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="toggleView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="events-grid" class="row g-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="event-card">
+                            <div class="event-image">
+                                <div class="d-flex align-items-center justify-content-center h-100">
+                                    @{
+                                        var iconClass = item.Category?.ToLower() switch
+                                        {
+                                            "concert" => "fas fa-music",
+                                            "theatre" => "fas fa-theater-masks",
+                                            "cultural" => "fas fa-palette",
+                                            "sports" => "fas fa-futbol",
+                                            _ => "fas fa-calendar-alt"
+                                        };
+                                    }
+                                    <i class="@iconClass text-white" style="font-size: 4rem;"></i>
+                                </div>
+                                @if (item.EventDate <= DateTime.Now.AddDays(7))
+                                {
+                                    <div class="position-absolute top-0 end-0 m-3">
+                                        <span class="badge bg-danger">Hot</span>
+                                    </div>
+                                }
+                            </div>
+                            <div class="event-content">
+                                <div class="event-date">
+                                    <i class="fas fa-calendar-alt me-2"></i>@item.EventDate.ToString("MMM dd, yyyy")
+                                </div>
+                                <h5 class="event-title">@item.Title</h5>
+                                <div class="event-location mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>@item.Venue?.Name, @item.Venue?.Location
+                                </div>
+                                <div class="event-category mb-3">
+                                    <span class="badge bg-primary">@item.Category</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="event-price">
+                                        @if (item.Prices?.Any() == true)
+                                        {
+                                            var minPrice = item.Prices.Min(p => p.Price);
+                                            <text>From $@minPrice.ToString("F2")</text>
+                                        }
+                                        else
+                                        {
+                                            <text>TBA</text>
+                                        }
+                                    </span>
+                                    <div>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm me-2">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-primary btn-sm" onclick="bookEvent(@item.Id)">
+                                            <i class="fas fa-ticket-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div id="events-list" class="d-none">
+                @foreach (var item in Model)
+                {
+                    <div class="card mb-3 shadow-soft">
+                        <div class="row g-0">
+                            <div class="col-md-3">
+                                <div class="h-100 d-flex align-items-center justify-content-center" style="background: var(--gradient-primary); min-height: 200px;">
+                                    @{
+                                        var iconClass = item.Category?.ToLower() switch
+                                        {
+                                            "concert" => "fas fa-music",
+                                            "theatre" => "fas fa-theater-masks",
+                                            "cultural" => "fas fa-palette",
+                                            "sports" => "fas fa-futbol",
+                                            _ => "fas fa-calendar-alt"
+                                        };
+                                    }
+                                    <i class="@iconClass text-white" style="font-size: 3rem;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title mb-0">@item.Title</h5>
+                                        <span class="badge bg-primary">@item.Category</span>
+                                    </div>
+                                    <p class="card-text text-muted mb-2">@Html.Raw(item.Description?.Substring(0, Math.Min(item.Description.Length, 150)) + (item.Description?.Length > 150 ? "..." : ""))</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar-alt me-1"></i>@item.EventDate.ToString("MMM dd, yyyy 'at' hh:mm tt")
+                                            </small><br>
+                                            <small class="text-muted">
+                                                <i class="fas fa-map-marker-alt me-1"></i>@item.Venue?.Name, @item.Venue?.Location
+                                            </small>
+                                        </div>
+                                        <div class="col-md-6 text-md-end">
+                                            <div class="mb-2">
+                                                @if (item.Prices?.Any() == true)
+                                                {
+                                                    var minPrice = item.Prices.Min(p => p.Price);
+                                                    <span class="h5 text-success">From $@minPrice.ToString("F2")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="h5 text-muted">TBA</span>
+                                                }
+                                            </div>
+                                            <div>
+                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm me-2">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </a>
+                                                <a href="#" class="btn btn-primary btn-sm" onclick="bookEvent(@item.Id)">
+                                                    <i class="fas fa-ticket-alt me-1"></i>Book Now
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-search" style="font-size: 4rem; color: var(--primary-color); opacity: 0.5;"></i>
+                </div>
+                <h3>No Events Found</h3>
+                <p class="text-muted mb-4">We couldn't find any events matching your criteria. Try adjusting your search filters.</p>
+                <a asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-refresh me-2"></i>View All Events
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function toggleView(viewType) {
+            const gridView = document.getElementById('events-grid');
+            const listView = document.getElementById('events-list');
+            const buttons = document.querySelectorAll('.btn-group .btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (viewType === 'grid') {
+                gridView.classList.remove('d-none');
+                listView.classList.add('d-none');
+                buttons[0].classList.add('active');
+            } else {
+                gridView.classList.add('d-none');
+                listView.classList.remove('d-none');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        function bookEvent(eventId) {
+            // TODO: Implement booking functionality
+            alert('Booking functionality will be implemented soon!');
+        }
+
+        // Add animation to cards on load
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.event-card, .card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in-up');
+            });
+        });
+    </script>
+}

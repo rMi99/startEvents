@@ -51,6 +51,9 @@ namespace online_event_booking.Data.Seeders
                         UserName = email,
                         Email = email,
                         EmailConfirmed = true,
+                        FullName = fullName,
+                        CreatedAt = DateTime.Now,
+                        IsActive = true
                     };
 
                     var result = await userManager.CreateAsync(newUser, "Password@123");

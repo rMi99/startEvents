@@ -1,0 +1,634 @@
+@model online_event_booking.Models.OrganizerDashboardViewModel
+@{
+    ViewData["Title"] = "Organizer Dashboard";
+}
+
+<div class="container-fluid dashboard-container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2 class="dashboard-title">Organizer Dashboard</h2>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="@Url.Action("CreateEvent")" class="btn btn-primary btn-modern">
+                <i class="fas fa-plus me-2"></i>Create New Event
+            </a>
+        </div>
+    </div>
+
+    <!-- Key Metrics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">EVENTS</span>
+                    <div class="metric-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+                <div class="metric-value">@(Model.TotalEvents)</div>
+                <div class="metric-growth positive">
+                    <i class="fas fa-arrow-up me-1"></i>8% from last month
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">ACTIVE</span>
+                    <div class="metric-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="metric-value">@(Model.ActiveEvents)</div>
+                <div class="metric-growth positive">
+                    <i class="fas fa-arrow-up me-1"></i>12% from last month
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">TICKETS</span>
+                    <div class="metric-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                </div>
+                <div class="metric-value">@(Model.TotalTicketsSold)</div>
+                <div class="metric-growth positive">
+                    <i class="fas fa-arrow-up me-1"></i>15% from last month
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">REVENUE</span>
+                    <div class="metric-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+                <div class="metric-value">$@(Model.TotalRevenue)</div>
+                <div class="metric-growth positive">
+                    <i class="fas fa-arrow-up me-1"></i>20% from last month
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-4">
+        <!-- Event Performance Chart -->
+        <div class="col-lg-8 mb-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h6 class="chart-title">Event Performance</h6>
+                    </div>
+                    <div class="chart-period">
+                        <span class="period-indicator">Last 6 months</span>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="performanceChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Categories -->
+        <div class="col-lg-4 mb-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h6 class="chart-title">Event Categories</h6>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="categoriesChart" height="300"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #8B5CF6;"></div>
+                        <span>Music</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #A78BFA;"></div>
+                        <span>Sports</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #C4B5FD;"></div>
+                        <span>Tech</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Events and Quick Actions -->
+    <div class="row">
+        <!-- Recent Events -->
+        <div class="col-lg-8 mb-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h6 class="chart-title">Recent Events</h6>
+                    <a href="@Url.Action("MyEvents")" class="btn btn-sm btn-outline-secondary">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th style="color: #64748B; font-weight: 600;">Event</th>
+                                <th style="color: #64748B; font-weight: 600;">Date</th>
+                                <th style="color: #64748B; font-weight: 600;">Tickets</th>
+                                <th style="color: #64748B; font-weight: 600;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.RecentEvents != null && Model.RecentEvents.Any())
+                            {
+                                @foreach (var eventItem in Model.RecentEvents)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong style="color: #1E293B;">@eventItem.Title</strong>
+                                                <div style="color: #64748B; font-size: 0.875rem;">@eventItem.Venue?.Name</div>
+                                            </div>
+                                        </td>
+                                        <td style="color: #64748B;">@eventItem.EventDate.ToString("MMM dd, yyyy")</td>
+                                        <td style="color: #64748B;">
+                                            @{
+                                                var ticketsSold = eventItem.Tickets?.Sum(t => t.Quantity) ?? 0;
+                                                var totalCapacity = eventItem.Venue?.Capacity ?? 0;
+                                            }
+                                            @ticketsSold/@totalCapacity
+                                        </td>
+                                        <td>
+                                            <span class="badge" style="background-color: #10B981; color: white; padding: 0.25rem 0.75rem; border-radius: 12px;">Active</span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-4">No recent events</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-lg-4 mb-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h6 class="chart-title">Quick Actions</h6>
+                </div>
+                <div class="d-grid gap-3">
+                    <a href="@Url.Action("CreateEvent")" class="btn btn-primary" style="background-color: var(--primary-purple); border: none; border-radius: 8px; padding: 0.75rem;">
+                        <i class="fas fa-plus me-2"></i>Create Event
+                    </a>
+                    <a href="@Url.Action("MyEvents")" class="btn btn-outline-secondary" style="border-radius: 8px; padding: 0.75rem;">
+                        <i class="fas fa-calendar-alt me-2"></i>Manage Events
+                    </a>
+                    <a href="@Url.Action("Analytics")" class="btn btn-outline-secondary" style="border-radius: 8px; padding: 0.75rem;">
+                        <i class="fas fa-chart-bar me-2"></i>View Analytics
+                    </a>
+                    <a href="@Url.Action("EventTickets")" class="btn btn-outline-secondary" style="border-radius: 8px; padding: 0.75rem;">
+                        <i class="fas fa-ticket-alt me-2"></i>Ticket Management
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+:root {
+    --primary-purple: #8B5CF6;
+    --light-purple: #A78BFA;
+    --lighter-purple: #C4B5FD;
+    --bg-gray: #F8FAFC;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --border-color: #E2E8F0;
+}
+
+.dashboard-container {
+    background-color: var(--bg-gray);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 0;
+}
+
+.btn-modern {
+    background-color: var(--primary-purple);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-modern:hover {
+    background-color: #7C3AED;
+    transform: translateY(-1px);
+}
+
+.metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748B;
+    letter-spacing: 0.05em;
+}
+
+.metric-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #F1F5F9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748B;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 0.5rem;
+}
+
+.metric-growth {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.metric-growth.positive {
+    color: #10B981;
+}
+
+.metric-growth.negative {
+    color: #EF4444;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    height: 100%;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.chart-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 0;
+}
+
+.chart-period {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748B;
+    font-size: 0.875rem;
+}
+
+.period-indicator {
+    background-color: #F1F5F9;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #64748B;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+@@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+    }
+    
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Chart colors
+    const colors = {
+        primary: '#8B5CF6',
+        secondary: '#A78BFA',
+        tertiary: '#C4B5FD',
+        gradient: {
+            primary: 'rgba(139, 92, 246, 0.8)',
+            secondary: 'rgba(167, 139, 250, 0.8)'
+        }
+    };
+
+    // Performance Chart
+    const performanceCtx = document.getElementById('performanceChart');
+    if (performanceCtx) {
+        new Chart(performanceCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Ticket Sales',
+                    data: [120, 180, 150, 220, 200, 280],
+                    borderColor: colors.primary,
+                    backgroundColor: colors.gradient.primary,
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointBackgroundColor: colors.primary,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#F1F5F9'
+                        },
+                        ticks: {
+                            color: '#64748B'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#64748B'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Categories Chart
+    const categoriesCtx = document.getElementById('categoriesChart');
+    if (categoriesCtx) {
+        new Chart(categoriesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Music', 'Sports', 'Tech'],
+                datasets: [{
+                    data: [45, 30, 25],
+                    backgroundColor: [colors.primary, colors.secondary, colors.tertiary],
+                    borderWidth: 0,
+                    cutout: '70%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+                    </div>
+                    <h3 class="text-info">$@Model.TotalRevenue.ToString("N2")</h3>
+                    <p class="text-muted mb-0">Total Revenue</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("CreateEvent", "Organizer")" class="btn btn-primary btn-block">
+                                <i class="fas fa-plus me-2"></i>Create Event
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("MyEvents", "Organizer")" class="btn btn-outline-success btn-block">
+                                <i class="fas fa-list me-2"></i>My Events
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Analytics", "Organizer")" class="btn btn-outline-warning btn-block">
+                                <i class="fas fa-chart-line me-2"></i>Analytics
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Events")" class="btn btn-outline-info btn-block">
+                                <i class="fas fa-eye me-2"></i>Browse Events
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Events and Upcoming Events -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Events</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentEvents.Count > 0)
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var eventItem in Model.RecentEvents)
+                            {
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@eventItem.Title</h6>
+                                        <small>@eventItem.EventDate.ToString("MMM dd")</small>
+                                    </div>
+                                    <p class="mb-1">@eventItem.Venue?.Name</p>
+                                    <small class="text-muted">Created: @eventItem.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                    <div class="mt-2">
+                                        <a href="@Url.Action("EventTickets", "Organizer", new { id = eventItem.Id })" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-ticket-alt me-1"></i>View Tickets
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-calendar-plus fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No events created yet.</p>
+                            <a href="@Url.Action("CreateEvent", "Organizer")" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Create Your First Event
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Upcoming Events</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.UpcomingEvents.Count > 0)
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var eventItem in Model.UpcomingEvents)
+                            {
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@eventItem.Title</h6>
+                                        <span class="badge bg-success">Upcoming</span>
+                                    </div>
+                                    <p class="mb-1">@eventItem.Venue?.Name</p>
+                                    <small class="text-success">
+                                        <i class="fas fa-calendar me-1"></i>@eventItem.EventDate.ToString("MMM dd, yyyy 'at' hh:mm tt")
+                                    </small>
+                                    <div class="mt-2">
+                                        <a href="@Url.Action("EventTickets", "Organizer", new { id = eventItem.Id })" class="btn btn-sm btn-outline-success">
+                                            <i class="fas fa-users me-1"></i>Manage
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No upcoming events scheduled.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stats-card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: transform 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.stats-icon {
+    font-size: 2rem;
+    opacity: 0.7;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 0.75rem;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+</style>
