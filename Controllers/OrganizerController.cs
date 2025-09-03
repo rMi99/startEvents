@@ -5,6 +5,8 @@ using online_event_booking.Data;
 using online_event_booking.Data.Entities;
 using online_event_booking.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace online_event_booking.Controllers
 {
@@ -78,6 +80,7 @@ namespace online_event_booking.Controllers
         public IActionResult CreateEvent()
         {
             ViewData["Title"] = "Create New Event";
+            ViewBag.venues = new SelectList(_context.Venues, "Id", "Name");
             return View();
         }
 
@@ -98,6 +101,8 @@ namespace online_event_booking.Controllers
                 TempData["Success"] = "Event created successfully!";
                 return RedirectToAction(nameof(MyEvents));
             }
+
+            ViewBag.Venues = new SelectList(_context.Venues,"Id","Name", eventModel.VenueId);
             
             return View(eventModel);
         }

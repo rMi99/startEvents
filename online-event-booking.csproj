@@ -9,9 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Events\EditEvent.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.13" />
@@ -20,11 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Business\Interface\" />
-    <Folder Include="Business\Services\" />
     <Folder Include="Database\" />
-    <Folder Include="Repository\Interface\" />
-    <Folder Include="Repository\Service\" />
   </ItemGroup>
 
 </Project>
