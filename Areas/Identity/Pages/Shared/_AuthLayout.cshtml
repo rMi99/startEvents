@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StarEvents</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card row shadow-strong">
+            <div class="col-lg-6 auth-left d-none d-lg-flex">
+                            <div class="w-100">
+                                <div class="text-center mb-4">
+                                    <div class="auth-logo">
+                                        <i class="fas fa-star me-2"></i>StarEvents
+                                    </div>
+                                    <h2>Welcome Back!</h2>
+                                    <p class="mb-4">Discover amazing events and create unforgettable memories with us.</p>
+                                </div>
+                                
+                                <div class="feature-list">
+                                    <div class="feature-item d-flex align-items-center mb-3">
+                                        <div class="feature-icon-sm me-3">
+                                            <i class="fas fa-ticket-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h6>Easy Booking</h6>
+                                            <small>Book tickets in just a few clicks</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="feature-item d-flex align-items-center mb-3">
+                                        <div class="feature-icon-sm me-3">
+                                            <i class="fas fa-shield-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h6>Secure Payments</h6>
+                                            <small>Your payment information is safe</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="feature-item d-flex align-items-center mb-3">
+                                        <div class="feature-icon-sm me-3">
+                                            <i class="fas fa-mobile-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h6>Mobile Tickets</h6>
+                                            <small>Access your tickets anywhere</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-4">
+                                    <div class="social-auth">
+                                        <p class="mb-3">Connect with us</p>
+                                        <div class="social-links">
+                                            <a href="#" class="social-link me-2">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                            <a href="#" class="social-link me-2">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <a href="#" class="social-link me-2">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                            <a href="#" class="social-link">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-lg-6 auth-right">
+                            <!-- Mobile Logo (visible only on small screens) -->
+                            <div class="text-center mb-4 d-lg-none">
+                                <div class="auth-logo text-primary">
+                                    <i class="fas fa-star me-2"></i>StarEvents
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mb-4">
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Home
+                                </a>
+                            </div>
+                            
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/auth.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

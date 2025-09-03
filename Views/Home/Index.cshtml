@@ -1,8 +1,284 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content fade-in-up">
+                    <h1 class="display-1 mb-4">Let's Start Your <span class="text-gradient">Adventure</span></h1>
+                    <p class="lead mb-4">Discover amazing events, concerts, and cultural experiences. Book your tickets now and create unforgettable memories.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#events" class="btn btn-primary btn-lg">
+                            <i class="fas fa-calendar-alt me-2"></i>Explore Events
+                        </a>
+                        <a href="#about" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-play me-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image text-center">
+                    <i class="fas fa-music" style="font-size: 15rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<div class="container">
+    <div class="search-section">
+        <h3 class="text-center mb-4">Find Your Perfect Event</h3>
+        <form class="row g-3">
+            <div class="col-md-4">
+                <label for="searchEvent" class="form-label">Event Name</label>
+                <input type="text" class="form-control" id="searchEvent" placeholder="Search events...">
+            </div>
+            <div class="col-md-3">
+                <label for="searchCategory" class="form-label">Category</label>
+                <select class="form-select" id="searchCategory">
+                    <option selected>All Categories</option>
+                    <option value="concert">Concerts</option>
+                    <option value="theatre">Theatre</option>
+                    <option value="cultural">Cultural</option>
+                    <option value="sports">Sports</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="searchDate" class="form-label">Date</label>
+                <input type="date" class="form-control" id="searchDate">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+
+<!-- Featured Events Section -->
+<section class="py-5" id="events">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-3 mb-3">Featured Events</h2>
+                <p class="lead text-muted">Discover the most popular and trending events happening near you</p>
+            </div>
+        </div>
+        
+        <div class="row g-4 mb-4">
+            <!-- Featured Categories -->
+            <div class="col-md-6 col-lg-3">
+                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
+                    <div class="category-icon mb-3">
+                        <i class="fas fa-music" style="font-size: 3rem; color: var(--primary-color);"></i>
+                    </div>
+                    <h5>Concerts</h5>
+                    <p class="text-muted">Live music experiences</p>
+                    <span class="badge bg-primary">25 Events</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
+                    <div class="category-icon mb-3">
+                        <i class="fas fa-theater-masks" style="font-size: 3rem; color: var(--secondary-color);"></i>
+                    </div>
+                    <h5>Theatre</h5>
+                    <p class="text-muted">Drama and performances</p>
+                    <span class="badge bg-secondary">12 Events</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
+                    <div class="category-icon mb-3">
+                        <i class="fas fa-palette" style="font-size: 3rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h5>Cultural</h5>
+                    <p class="text-muted">Art and culture events</p>
+                    <span class="badge" style="background: var(--accent-color);">18 Events</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
+                    <div class="category-icon mb-3">
+                        <i class="fas fa-futbol" style="font-size: 3rem; color: var(--success-color);"></i>
+                    </div>
+                    <h5>Sports</h5>
+                    <p class="text-muted">Athletic competitions</p>
+                    <span class="badge bg-success">8 Events</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Event Cards -->
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div class="event-image">
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <i class="fas fa-music text-white" style="font-size: 4rem;"></i>
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="badge bg-danger">Hot</span>
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt me-2"></i>Dec 15, 2025
+                        </div>
+                        <h5 class="event-title">Rock Concert 2025</h5>
+                        <div class="event-location mb-3">
+                            <i class="fas fa-map-marker-alt me-2"></i>Colombo Arena
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="event-price">$45.00</span>
+                            <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div class="event-image" style="background: var(--gradient-success);">
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <i class="fas fa-theater-masks text-white" style="font-size: 4rem;"></i>
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt me-2"></i>Dec 20, 2025
+                        </div>
+                        <h5 class="event-title">Shakespeare Night</h5>
+                        <div class="event-location mb-3">
+                            <i class="fas fa-map-marker-alt me-2"></i>Royal Theatre
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="event-price">$35.00</span>
+                            <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div class="event-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <i class="fas fa-palette text-white" style="font-size: 4rem;"></i>
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="badge bg-warning">New</span>
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt me-2"></i>Jan 05, 2026
+                        </div>
+                        <h5 class="event-title">Art Exhibition</h5>
+                        <div class="event-location mb-3">
+                            <i class="fas fa-map-marker-alt me-2"></i>Gallery One
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="event-price">$25.00</span>
+                            <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="#" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-eye me-2"></i>View All Events
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light" id="about">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-3 mb-3">Why Choose StarEvents?</h2>
+                <p class="lead text-muted">Experience the best event booking platform with amazing features</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h5>Instant Booking</h5>
+                    <p class="text-muted">Book your tickets instantly with our fast and secure booking system.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h5>QR E-Tickets</h5>
+                    <p class="text-muted">Get digital tickets with QR codes for easy and contactless entry.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5>Secure Payments</h5>
+                    <p class="text-muted">Safe and secure payment processing with multiple payment options.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h5>Loyalty Rewards</h5>
+                    <p class="text-muted">Earn points and get exclusive discounts on future bookings.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation to event cards
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.event-card, .feature-box');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in-up');
+            });
+        });
+    </script>
+}

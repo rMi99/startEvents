@@ -1,0 +1,997 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="modern-dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-calendar-alt"></i>
+                <span>EventHub</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="@Url.Action("Index", "Home")" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="@Url.Action("Index", "Admin")" class="nav-item active">
+                <i class="fas fa-chart-pie"></i>
+                <span>Projects</span>
+            </a>
+            <a href="@Url.Action("Events", "Admin")" class="nav-item">
+                <i class="fas fa-calendar"></i>
+                <span>Events</span>
+            </a>
+            <a href="@Url.Action("Users", "Admin")" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="@Url.Action("Reports", "Admin")" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+            <a href="@Url.Action("Settings", "Admin")" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">Admin User</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="content-header">
+            <div class="header-left">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">My Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-stats">
+                    <span class="stat-badge pending">Pending</span>
+                    <span class="stat-period">September 2024</span>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div class="profile-avatar">
+                        <img src="https://via.placeholder.com/32" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="profile-card">
+                <div class="profile-avatar-large">
+                    <img src="https://via.placeholder.com/80" alt="Admin Profile">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">System Administrator</h2>
+                    <p class="profile-title">Event Management Admin</p>
+                    <div class="profile-actions">
+                        <button class="btn-icon">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="fas fa-comment"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="fas fa-video"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="profile-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Time Slots</span>
+                        <div class="time-slot">
+                            <span>September, 2024</span>
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Meetings</span>
+                        <div class="meeting-count">
+                            <span class="count">5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="projects-section">
+                <div class="section-header">
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">
+                            Ongoing Projects
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-actions">
+                        <button class="btn-icon">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- Event Management Project -->
+                    <div class="project-card yellow">
+                        <div class="project-header">
+                            <div class="project-date">September 05, 2024</div>
+                            <button class="project-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Event Management</h3>
+                            <div class="project-status">
+                                <div class="status-dot"></div>
+                                <span class="status-text">Planning</span>
+                                <span class="status-progress">80% Progress</span>
+                            </div>
+                            <div class="project-team">
+                                <div class="team-avatars">
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 1"></div>
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 2"></div>
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 3"></div>
+                                    <div class="avatar-more">+</div>
+                                </div>
+                                <div class="days-left">2 Days Left</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Management Project -->
+                    <div class="project-card blue">
+                        <div class="project-header">
+                            <div class="project-date">September 08, 2024</div>
+                            <button class="project-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">User Management</h3>
+                            <div class="project-status">
+                                <div class="status-dot"></div>
+                                <span class="status-text">Development</span>
+                                <span class="status-progress">90% Progress</span>
+                            </div>
+                            <div class="project-team">
+                                <div class="team-avatars">
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 1"></div>
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 2"></div>
+                                    <div class="avatar-more">+</div>
+                                </div>
+                                <div class="days-left">5 Days Left</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Dashboard -->
+                    <div class="project-card pink">
+                        <div class="project-header">
+                            <div class="project-date">September 12, 2024</div>
+                            <button class="project-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Analytics Dashboard</h3>
+                            <div class="project-status">
+                                <div class="status-dot"></div>
+                                <span class="status-text">Testing</span>
+                                <span class="status-progress">75% Progress</span>
+                            </div>
+                            <div class="project-team">
+                                <div class="team-avatars">
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 1"></div>
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 2"></div>
+                                    <div class="avatar"><img src="https://via.placeholder.com/24" alt="User 3"></div>
+                                    <div class="avatar-more">+</div>
+                                </div>
+                                <div class="days-left">8 Days Left</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+            <!-- Calendar -->
+            <div class="calendar-widget">
+                <div class="widget-header">
+                    <h3>Calendar</h3>
+                    <div class="calendar-nav">
+                        <button class="nav-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="current-month">September</span>
+                        <button class="nav-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-header">
+                        <div class="day-name">M</div>
+                        <div class="day-name">T</div>
+                        <div class="day-name">W</div>
+                        <div class="day-name">T</div>
+                        <div class="day-name">F</div>
+                        <div class="day-name">S</div>
+                        <div class="day-name">S</div>
+                    </div>
+                    <div class="calendar-days">
+                        @for (int day = 1; day <= 30; day++)
+                        {
+                            <div class="calendar-day @(day == 2 ? "today" : "") @(day == 5 || day == 12 || day == 18 ? "has-event" : "")">
+                                @day
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inbox -->
+            <div class="inbox-widget">
+                <div class="widget-header">
+                    <h3>Inbox</h3>
+                    <div class="inbox-count">5</div>
+                </div>
+                <div class="inbox-messages">
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <img src="https://via.placeholder.com/32" alt="User">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="sender-name">Event Planning</span>
+                                <div class="message-actions">
+                                    <button class="action-btn">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="message-text">New event registration received for Tech Conference 2024</div>
+                        </div>
+                    </div>
+
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <img src="https://via.placeholder.com/32" alt="User">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="sender-name">System Alert</span>
+                                <div class="message-actions">
+                                    <button class="action-btn">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="message-text">Server maintenance scheduled for this weekend</div>
+                        </div>
+                    </div>
+
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <img src="https://via.placeholder.com/32" alt="User">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="sender-name">User Support</span>
+                                <div class="message-actions">
+                                    <button class="action-btn">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="message-text">Customer support ticket #1234 requires admin review</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.modern-dashboard {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f6fa;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid #34495e;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.logo i {
+    font-size: 1.5rem;
+    color: #3498db;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background-color: #34495e;
+    color: white;
+    border-left-color: #3498db;
+}
+
+.nav-item i {
+    width: 20px;
+    font-size: 1.1rem;
+}
+
+.sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #34495e;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.user-role {
+    color: #bdc3c7;
+    font-size: 0.8rem;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-badge {
+    background: #f39c12;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.stat-badge.pending {
+    background: #e67e22;
+}
+
+.stat-period {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #ecf0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #7f8c8d;
+}
+
+.action-btn:hover {
+    background: #f8f9fa;
+    color: #3498db;
+}
+
+.profile-avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+/* Profile Section */
+.profile-section {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.profile-avatar-large img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.profile-title {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    border: 1px solid #ecf0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #7f8c8d;
+}
+
+.btn-icon:hover {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+.profile-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.meta-label {
+    color: #7f8c8d;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.time-slot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ecf0f1;
+}
+
+.meeting-count {
+    background: #3498db;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* Projects Section */
+.projects-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.dropdown-toggle {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.section-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+}
+
+.project-card.yellow {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.project-card.blue {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+.project-card.pink {
+    background: linear-gradient(135deg, #e91e63, #ad1457);
+    color: white;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.project-date {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.project-menu {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.project-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.project-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.8);
+}
+
+.status-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.status-progress {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-left: auto;
+}
+
+.project-team {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-avatars {
+    display: flex;
+    gap: -0.5rem;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -8px;
+}
+
+.avatar:first-child {
+    margin-left: 0;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.avatar-more {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    margin-left: -8px;
+}
+
+.days-left {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Bottom Section */
+.bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.calendar-widget,
+.inbox-widget {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.widget-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #7f8c8d;
+    padding: 0.25rem;
+}
+
+.current-month {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.calendar-grid {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.day-name {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calendar-day:hover {
+    background: #ecf0f1;
+}
+
+.calendar-day.today {
+    background: #3498db;
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-day.has-event {
+    background: #e74c3c;
+    color: white;
+}
+
+.inbox-count {
+    background: #e74c3c;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.inbox-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.message-item:hover {
+    background: #f8f9fa;
+}
+
+.message-avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.message-content {
+    flex: 1;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.sender-name {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.message-text {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@@media (max-width: 1024px) {
+    .profile-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bottom-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+@@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .header-right {
+        gap: 0.5rem;
+    }
+    
+    .header-stats {
+        display: none;
+    }
+}
+</style>

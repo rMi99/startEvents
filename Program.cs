@@ -6,6 +6,7 @@ using online_event_booking.Data.Entities;
 // Add this using directive for Identity
 using Microsoft.Extensions.DependencyInjection;
 using online_event_booking.Data.Seeders;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Use AddIdentity instead of AddDefaultIdentity for custom user and role types
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// Register IEmailSender service
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Venue> Venues => Set<Venue>();
     public DbSet<EventPrice> EventPrices => Set<EventPrice>();
     public DbSet<Ticket> Tickets => Set<Ticket>();
+    public DbSet<Payment> Payments => Set<Payment>(); // Added Payment DbSet
     public DbSet<Discount> Discounts => Set<Discount>();
     public DbSet<LoyaltyPoint> LoyaltyPoints => Set<LoyaltyPoint>();
 }

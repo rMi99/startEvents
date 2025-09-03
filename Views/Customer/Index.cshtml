@@ -1,0 +1,221 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Customer Dashboard";
+}
+
+<div class="container-fluid">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-info text-white">
+                <div class="card-body">
+                    <h1 class="mb-0"><i class="fas fa-user me-2"></i>Welcome Back!</h1>
+                    <p class="mb-0">Discover amazing events and manage your bookings</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-ticket-alt text-primary"></i>
+                    </div>
+                    <h3 class="text-primary">@Model.TotalTickets</h3>
+                    <p class="text-muted mb-0">My Tickets</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-calendar-check text-success"></i>
+                    </div>
+                    <h3 class="text-success">@Model.UpcomingEvents</h3>
+                    <p class="text-muted mb-0">Upcoming Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-dollar-sign text-warning"></i>
+                    </div>
+                    <h3 class="text-warning">$@Model.TotalSpent.ToString("N2")</h3>
+                    <p class="text-muted mb-0">Total Spent</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-star text-info"></i>
+                    </div>
+                    <h3 class="text-info">@Model.LoyaltyPoints</h3>
+                    <p class="text-muted mb-0">Loyalty Points</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("BrowseEvents", "Customer")" class="btn btn-primary btn-block">
+                                <i class="fas fa-search me-2"></i>Browse Events
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("MyTickets", "Customer")" class="btn btn-outline-success btn-block">
+                                <i class="fas fa-ticket-alt me-2"></i>My Tickets
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("LoyaltyPoints", "Customer")" class="btn btn-outline-warning btn-block">
+                                <i class="fas fa-star me-2"></i>Loyalty Points
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Profile", "Customer")" class="btn btn-outline-info btn-block">
+                                <i class="fas fa-user me-2"></i>My Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Tickets and Upcoming Events -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Tickets</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentTickets.Count > 0)
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var ticket in Model.RecentTickets)
+                            {
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@ticket.Event.Title</h6>
+                                        <small>@ticket.PurchaseDate.ToString("MMM dd")</small>
+                                    </div>
+                                    <p class="mb-1">
+                                        <i class="fas fa-map-marker-alt me-1"></i>@ticket.Event.Venue?.Name
+                                    </p>
+                                    <p class="mb-1">
+                                        <i class="fas fa-ticket-alt me-1"></i>Quantity: @ticket.Quantity | 
+                                        <i class="fas fa-dollar-sign me-1"></i>$@ticket.TotalAmount.ToString("N2")
+                                    </p>
+                                    <small class="text-muted">Ticket Code: @ticket.TicketCode</small>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-ticket-alt fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No tickets purchased yet.</p>
+                            <a href="@Url.Action("BrowseEvents", "Customer")" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Browse Events
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>My Upcoming Events</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.UpcomingEventsList.Count > 0)
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var ticket in Model.UpcomingEventsList)
+                            {
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@ticket.Event.Title</h6>
+                                        <span class="badge bg-success">Upcoming</span>
+                                    </div>
+                                    <p class="mb-1">
+                                        <i class="fas fa-map-marker-alt me-1"></i>@ticket.Event.Venue?.Name
+                                    </p>
+                                    <p class="mb-1">
+                                        <i class="fas fa-calendar me-1"></i>@ticket.Event.EventDate.ToString("MMM dd, yyyy")
+                                    </p>
+                                    <small class="text-success">
+                                        <i class="fas fa-ticket-alt me-1"></i>@ticket.Quantity ticket(s) - Code: @ticket.TicketCode
+                                    </small>
+                                    <div class="mt-2">
+                                        <a href="@Url.Action("EventDetails", "Customer", new { id = ticket.Event.Id })" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-info-circle me-1"></i>Event Details
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No upcoming events.</p>
+                            <a href="@Url.Action("BrowseEvents", "Customer")" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Find Events
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stats-card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: transform 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.stats-icon {
+    font-size: 2rem;
+    opacity: 0.7;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 0.75rem;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #17a2b8, #6f42c1);
+}
+</style>

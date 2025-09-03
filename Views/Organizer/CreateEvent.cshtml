@@ -1,0 +1,277 @@
+@model online_event_booking.Data.Entities.Event
+@{
+    ViewData["Title"] = "Create New Event";
+}
+
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Create New Event</h1>
+                            <p class="mb-0">Fill in the details to create your event</p>
+                        </div>
+                        <div>
+                            <a href="@Url.Action("MyEvents")" class="btn btn-light">
+                                <i class="fas fa-arrow-left me-2"></i>Back to My Events
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Event Form -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Event Details</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="CreateEvent" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <!-- Basic Information -->
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Title" class="form-label">Event Title <span class="text-danger">*</span></label>
+                                <input asp-for="Title" class="form-control" placeholder="Enter event title">
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Category" class="form-label">Category <span class="text-danger">*</span></label>
+                                <select asp-for="Category" class="form-select">
+                                    <option value="">Select Category</option>
+                                    <option value="Concert">Concert</option>
+                                    <option value="Conference">Conference</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Theatre">Theatre</option>
+                                    <option value="Comedy">Comedy</option>
+                                    <option value="Festival">Festival</option>
+                                    <option value="Exhibition">Exhibition</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="Category" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="VenueId" class="form-label">Venue <span class="text-danger">*</span></label>
+                                <select asp-for="VenueId" class="form-select">
+                                    <option value="">Select Venue</option>
+                                    <!-- Venues would be populated from ViewBag or ViewData -->
+                                </select>
+                                <span asp-validation-for="VenueId" class="text-danger"></span>
+                                <small class="form-text text-muted">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#venueModal">
+                                        <i class="fas fa-plus"></i> Add New Venue
+                                    </a>
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="EventDate" class="form-label">Event Date <span class="text-danger">*</span></label>
+                                <input asp-for="EventDate" type="date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                <span asp-validation-for="EventDate" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="EventTime" class="form-label">Event Time <span class="text-danger">*</span></label>
+                                <input asp-for="EventTime" type="time" class="form-control">
+                                <span asp-validation-for="EventTime" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Description" class="form-label">Description <span class="text-danger">*</span></label>
+                                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe your event..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <small class="form-text text-muted">Provide a detailed description of your event.</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Image" class="form-label">Event Image</label>
+                                <input type="file" class="form-control" name="ImageFile" accept="image/*">
+                                <small class="form-text text-muted">Upload an image for your event (optional).</small>
+                            </div>
+                        </div>
+
+                        <!-- Publishing Options -->
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <div class="form-check">
+                                    <input asp-for="IsPublished" class="form-check-input" type="checkbox">
+                                    <label asp-for="IsPublished" class="form-check-label">
+                                        Publish event immediately
+                                    </label>
+                                    <small class="form-text text-muted d-block">
+                                        If unchecked, the event will be saved as draft and can be published later.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <a href="@Url.Action("MyEvents")" class="btn btn-secondary">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <div>
+                                        <button type="submit" name="action" value="draft" class="btn btn-outline-primary me-2">
+                                            <i class="fas fa-save me-2"></i>Save as Draft
+                                        </button>
+                                        <button type="submit" name="action" value="publish" class="btn btn-success">
+                                            <i class="fas fa-check me-2"></i>Create & Publish
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Venue Modal -->
+<div class="modal fade" id="venueModal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="venueModalLabel">Add New Venue</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="venueForm">
+                    <div class="mb-3">
+                        <label for="venueName" class="form-label">Venue Name</label>
+                        <input type="text" class="form-control" id="venueName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="venueLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="venueLocation" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="venueCapacity" class="form-label">Capacity</label>
+                        <input type="number" class="form-control" id="venueCapacity" min="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveVenue()">Save Venue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bg-gradient-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+    transform: translateY(-1px);
+}
+</style>
+
+<script>
+// Form validation and enhancement
+document.addEventListener('DOMContentLoaded', function() {
+    // Set minimum date to today
+    const dateInput = document.querySelector('input[type="date"]');
+    if (dateInput) {
+        dateInput.min = new Date().toISOString().split('T')[0];
+    }
+    
+    // Auto-publish when checkbox is checked
+    const publishCheckbox = document.querySelector('input[name="IsPublished"]');
+    const actionButtons = document.querySelectorAll('button[name="action"]');
+    
+    if (publishCheckbox) {
+        publishCheckbox.addEventListener('change', function() {
+            actionButtons.forEach(btn => {
+                if (btn.value === 'publish') {
+                    btn.disabled = !this.checked;
+                }
+            });
+        });
+    }
+});
+
+function saveVenue() {
+    const name = document.getElementById('venueName').value;
+    const location = document.getElementById('venueLocation').value;
+    const capacity = document.getElementById('venueCapacity').value;
+    
+    if (!name || !location || !capacity) {
+        alert('Please fill in all venue fields.');
+        return;
+    }
+    
+    // In a real application, you would make an AJAX call to save the venue
+    // For now, we'll just simulate adding it to the dropdown
+    const venueSelect = document.querySelector('select[name="VenueId"]');
+    const newOption = document.createElement('option');
+    newOption.value = Date.now(); // Temporary ID
+    newOption.textContent = `${name} - ${location}`;
+    newOption.selected = true;
+    
+    venueSelect.appendChild(newOption);
+    
+    // Close modal and reset form
+    const modal = bootstrap.Modal.getInstance(document.getElementById('venueModal'));
+    modal.hide();
+    document.getElementById('venueForm').reset();
+    
+    alert('Venue added successfully!');
+}
+
+// Handle form submission based on action
+document.querySelector('form').addEventListener('submit', function(e) {
+    const submitBtn = document.activeElement;
+    if (submitBtn.name === 'action') {
+        const isPublish = submitBtn.value === 'publish';
+        document.querySelector('input[name="IsPublished"]').checked = isPublish;
+    }
+});
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

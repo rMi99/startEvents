@@ -1,0 +1,267 @@
+@model IEnumerable<online_event_booking.Data.Entities.Event>
+@{
+    ViewData["Title"] = "My Events";
+}
+
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>My Events</h1>
+                            <p class="mb-0">Manage your events and track performance</p>
+                        </div>
+                        <div>
+                            <a href="@Url.Action("CreateEvent")" class="btn btn-light btn-lg">
+                                <i class="fas fa-plus me-2"></i>Create New Event
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Events Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-calendar-check text-success"></i>
+                    </div>
+                    <h3 class="text-success">@Model.Count()</h3>
+                    <p class="text-muted mb-0">Total Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-clock text-warning"></i>
+                    </div>
+                    <h3 class="text-warning">@Model.Count(e => e.EventDate > DateTime.Now)</h3>
+                    <p class="text-muted mb-0">Upcoming Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-play text-info"></i>
+                    </div>
+                    <h3 class="text-info">@Model.Count(e => e.EventDate.Date == DateTime.Now.Date)</h3>
+                    <p class="text-muted mb-0">Today's Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-check-circle text-secondary"></i>
+                    </div>
+                    <h3 class="text-secondary">@Model.Count(e => e.EventDate < DateTime.Now)</h3>
+                    <p class="text-muted mb-0">Past Events</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Events List -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">All My Events</h5>
+                    <div class="btn-group">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Filter Events
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="filterEvents('all')">All Events</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterEvents('upcoming')">Upcoming</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterEvents('today')">Today</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterEvents('past')">Past Events</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model.Any())
+                    {
+                        <div class="row" id="eventsContainer">
+                            @foreach (var eventItem in Model)
+                            {
+                                var eventStatus = eventItem.EventDate.Date > DateTime.Now.Date ? "upcoming" : 
+                                                eventItem.EventDate.Date == DateTime.Now.Date ? "today" : "past";
+                                var statusClass = eventStatus == "upcoming" ? "success" : 
+                                                eventStatus == "today" ? "warning" : "secondary";
+                                var statusText = eventStatus == "upcoming" ? "Upcoming" : 
+                                               eventStatus == "today" ? "Today" : "Past";
+                                
+                                <div class="col-lg-6 col-xl-4 mb-4 event-card" data-status="@eventStatus">
+                                    <div class="card h-100 event-item">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-@statusClass">@statusText</span>
+                                            <span class="badge bg-secondary">@eventItem.Category</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(eventItem.Image))
+                                        {
+                                            <img src="@eventItem.Image" class="card-img-top" alt="@eventItem.Title" style="height: 200px; object-fit: cover;">
+                                        }
+                                        <div class="card-body">
+                                            <h5 class="card-title">@eventItem.Title</h5>
+                                            <p class="card-text text-muted">@eventItem.Description</p>
+                                            
+                                            <div class="event-details">
+                                                <div class="detail-item">
+                                                    <i class="fas fa-calendar-alt text-primary"></i>
+                                                    <span>@eventItem.EventDate.ToString("MMM dd, yyyy")</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <i class="fas fa-clock text-info"></i>
+                                                    <span>@eventItem.EventTime.ToString("hh:mm tt")</span>
+                                                </div>
+                                                @if (eventItem.Venue != null)
+                                                {
+                                                    <div class="detail-item">
+                                                        <i class="fas fa-map-marker-alt text-danger"></i>
+                                                        <span>@eventItem.Venue.Name</span>
+                                                    </div>
+                                                }
+                                                @if (eventItem.Prices != null && eventItem.Prices.Any())
+                                                {
+                                                    var minPrice = eventItem.Prices.Min(p => p.Price);
+                                                    var maxPrice = eventItem.Prices.Max(p => p.Price);
+                                                    <div class="detail-item">
+                                                        <i class="fas fa-tag text-success"></i>
+                                                        <span>
+                                                            @if (minPrice == maxPrice)
+                                                            {
+                                                                <text>$@minPrice.ToString("F2")</text>
+                                                            }
+                                                            else
+                                                            {
+                                                                <text>$@minPrice.ToString("F2") - $@maxPrice.ToString("F2")</text>
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="btn-group w-100">
+                                                <a href="@Url.Action("Details", "Events", new { id = eventItem.Id })" 
+                                                   class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-eye"></i> View
+                                                </a>
+                                                <a href="@Url.Action("Edit", "Events", new { id = eventItem.Id })" 
+                                                   class="btn btn-outline-warning btn-sm">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <a href="@Url.Action("EventTickets", new { id = eventItem.Id })" 
+                                                   class="btn btn-outline-info btn-sm">
+                                                    <i class="fas fa-ticket-alt"></i> Tickets
+                                                </a>
+                                                <button class="btn btn-outline-danger btn-sm" 
+                                                        onclick="confirmDelete(@eventItem.Id, '@eventItem.Title')">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-calendar-times fa-5x text-muted mb-4"></i>
+                            <h4 class="text-muted">No Events Created Yet</h4>
+                            <p class="text-muted mb-4">You haven't created any events yet. Start by creating your first event!</p>
+                            <a href="@Url.Action("CreateEvent")" class="btn btn-primary btn-lg">
+                                <i class="fas fa-plus me-2"></i>Create Your First Event
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.stats-card {
+    transition: transform 0.2s;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.stats-icon i {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.event-item {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.event-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.event-details {
+    margin-top: 15px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.detail-item i {
+    width: 20px;
+    margin-right: 8px;
+}
+</style>
+
+<script>
+function filterEvents(status) {
+    const eventCards = document.querySelectorAll('.event-card');
+    
+    eventCards.forEach(card => {
+        if (status === 'all' || card.dataset.status === status) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function confirmDelete(eventId, eventTitle) {
+    if (confirm(`Are you sure you want to delete "${eventTitle}"? This action cannot be undone.`)) {
+        // You would typically submit a form or make an AJAX call here
+        window.location.href = '@Url.Action("Delete", "Events")/' + eventId;
+    }
+}
+</script>
