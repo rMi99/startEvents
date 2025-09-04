@@ -37,5 +37,6 @@ namespace online_event_booking.Data.Entities
 
         public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
         public ICollection<EventPrice> Prices { get; set; } = new List<EventPrice>();
+        public DateTime UpdatedAt { get; internal set; }
     }
 }

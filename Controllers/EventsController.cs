@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using online_event_booking.Data;
-using online_event_booking.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using online_event_booking.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Drawing.Printing;
+using online_event_booking.Data;
+using online_event_booking.Data.Entities;
 
 namespace online_event_booking.Controllers
 {
@@ -20,65 +18,94 @@ namespace online_event_booking.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            var events = await _context.Events
-                .Include(e => e.Venue)
-                .Include(e => e.Prices)
-                .Where(e => e.EventDate >= DateTime.Now)
-                .OrderBy(e => e.EventDate)
-                .ToListAsync();
-
+            var events = await _context.Events.Include(e => e.Venue).ToListAsync();
             return View(events);
         }
 
+        // GET: Events/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
 
-        //GET: Event Create
+            var eventItem = await _context.Events
+                .Include(e => e.Venue)
+                .Include(e => e.Prices)
+                .FirstOrDefaultAsync(m => m.Id == id.Value);
 
+            if (eventItem == null) return NotFound();
+
+            return View(eventItem);
+        }
+
+        // GET: Events/Create
         public IActionResult Create()
         {
             ViewData["VenueId"] = new SelectList(_context.Venues, "Id", "Name");
             return View();
         }
 
+        // POST: Events/Create
         [HttpPost]
-
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Create([Bind("Title,Description,Category,EventDate,Eventtime,VenueId")] Event eventModel)
+        public async Task<IActionResult> Create(Event eventModel)
         {
             if (ModelState.IsValid)
             {
-
+                eventModel.CreatedAt = DateTime.Now;
                 _context.Add(eventModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["VenueId"] = new SelectList(_context.Venues, "Id", "Name", eventModel.VenueId);
             return View(eventModel);
-
-
         }
 
+        // GET: Events/Edit/5
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var eventItem = await _context.Events
+                .Include(e => e.Venue)
+                .FirstOrDefaultAsync(e => e.Id == id);
 
+            if (eventItem == null)
+            {
+                return NotFound(); // Event not found
+            }
+
+            // Populate dropdown for venues
+            ViewBag.Venues = new SelectList(_context.Venues, "Id", "Name", eventItem.VenueId);
+
+            return View(eventItem); // Show the edit form
+        }
+
+        // POST: Events/Edit/5
         [HttpPost]
-
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Category,EventDate,Eventtime,VenueId")] Event eventModel)
+        public async Task<IActionResult> Edit(int id, Event eventModel)
         {
             if (id != eventModel.Id)
             {
-                return NotFound();
+                return NotFound(); // Ensure correct event is updated
             }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(eventModel);
+                    // Track update timestamp
+                    eventModel.UpdatedAt = DateTime.Now;
+
+                    // Update the event in the database
+                    _context.Events.Update(eventModel);
                     await _context.SaveChangesAsync();
+
+                    TempData["Success"] = "Event updated successfully!";
+                    return RedirectToAction(nameof(Edit), new { id = eventModel.Id }); // Stay on same edit page
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(eventModel.Id))
+                    if (!_context.Events.Any(e => e.Id == eventModel.Id))
                     {
                         return NotFound();
                     }
@@ -87,122 +114,43 @@ namespace online_event_booking.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["VenueId"] = new SelectList(_context.Venues, "Id", "Name", eventModel.VenueId);
-            return View(eventModel);
-        }
 
-        private bool EventExists(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        //GET : Events/DELETE/5
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Events == null)
-            {
-                return NotFound();
-            }
-            var eventModel = await _context.Events
-                .Include(e => e.Venue)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-
-            if (eventModel == null)
-            {
-                return NotFound();
-            }
+            // Reload dropdown if validation fails
+            ViewBag.Venues = new SelectList(_context.Venues, "Id", "Name", eventModel.VenueId);
             return View(eventModel);
         }
 
 
-        //Post: Event/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-
-        [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // GET: Events/Delete/5
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (_context.Events == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Events'  is null.");
-            }
-            var eventModel = await _context.Events.FindAsync(id);
-            if (eventModel != null)
-            {
-                _context.Events.Remove(eventModel);
-            }
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-
-
-        // GET: Events/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var eventItem = await _context.Events
                 .Include(e => e.Venue)
-                .Include(e => e.Prices)
-                .FirstOrDefaultAsync(m => m.Id == id.Value);
+                .FirstOrDefaultAsync(e => e.Id == id);
 
             if (eventItem == null)
-
+            {
                 return NotFound();
+            }
 
-
-            return View(eventItem);
+            return View(eventItem); // shows confirmation page
         }
 
-
-
-
-        // GET: Events/Search
-        public async Task<IActionResult> Search(string searchTerm, string category, DateTime? date, string location)
+        // POST: Events/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var query = _context.Events
-                .Include(e => e.Venue)
-                .Include(e => e.Prices)
-                .Where(e => e.EventDate >= DateTime.Now)
-                .AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchTerm))
+            var eventItem = await _context.Events.FindAsync(id);
+            if (eventItem != null)
             {
-                query = query.Where(e => e.Title.Contains(searchTerm) || e.Description.Contains(searchTerm));
+                _context.Events.Remove(eventItem);
+                await _context.SaveChangesAsync();
             }
 
-            if (!string.IsNullOrEmpty(category))
-            {
-                query = query.Where(e => e.Category == category);
-            }
-
-            if (date.HasValue)
-            {
-                query = query.Where(e => e.EventDate.Date == date.Value.Date);
-            }
-
-            if (!string.IsNullOrEmpty(location))
-            {
-                query = query.Where(e => e.Venue.Location.Contains(location) || e.Venue.Name.Contains(location));
-            }
-
-            var events = await query.OrderBy(e => e.EventDate).ToListAsync();
-            ViewBag.SearchTerm = searchTerm;
-            ViewBag.Category = category;
-            ViewBag.Date = date;
-            ViewBag.Location = location;
-
-            return View("Index", events);
+            return RedirectToAction(nameof(Index)); // reloads admin/events page
         }
     }
 }
