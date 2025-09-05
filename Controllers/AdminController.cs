@@ -60,12 +60,28 @@ namespace online_event_booking.Controllers
             var users = await _userManager.Users.ToListAsync();
             var userRoles = new Dictionary<string, IList<string>>();
             
+            int adminCount = 0, organizerCount = 0, customerCount = 0;
+            
             foreach (var user in users)
             {
-                userRoles[user.Id] = await _userManager.GetRolesAsync(user);
+                var roles = await _userManager.GetRolesAsync(user);
+                userRoles[user.Id] = roles;
+                
+                // Count users by role
+                if (roles.Contains("Admin"))
+                    adminCount++;
+                else if (roles.Contains("Organizer"))
+                    organizerCount++;
+                else
+                    customerCount++;
             }
             
             ViewBag.UserRoles = userRoles;
+            ViewBag.TotalUsers = users.Count;
+            ViewBag.AdminUsers = adminCount;
+            ViewBag.OrganizerUsers = organizerCount;
+            ViewBag.CustomerUsers = customerCount;
+            
             return View(users);
         }
 

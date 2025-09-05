@@ -1,53 +1,364 @@
 @model dynamic
 @{
     ViewData["Title"] = "Admin Dashboard";
+    Layout = "_DashboardLayout";
 }
 
-<div class="modern-dashboard">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <i class="fas fa-calendar-alt"></i>
-                <span>EventHub</span>
+<!-- Dashboard Content -->
+<div class="dashboard-content">
+    <!-- Top Header -->
+    <div class="dashboard-header">
+        <div class="header-left">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">Welcome back! Here's what's happening with your events.</p>
+        </div>
+        <div class="header-right">
+            <div class="header-actions">
+                <button class="btn btn-outline-primary">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Event
+                </button>
             </div>
         </div>
-        
-        <nav class="sidebar-nav">
-            <a href="@Url.Action("Index", "Home")" class="nav-item">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="@Url.Action("Index", "Admin")" class="nav-item active">
-                <i class="fas fa-chart-pie"></i>
-                <span>Projects</span>
-            </a>
-            <a href="@Url.Action("Events", "Admin")" class="nav-item">
-                <i class="fas fa-calendar"></i>
-                <span>Events</span>
-            </a>
-            <a href="@Url.Action("Users", "Admin")" class="nav-item">
+    </div>
+
+    <!-- Stats Cards Row -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon bg-primary">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number">125,467</h3>
+                <p class="stat-label">Total Events</p>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +12.5%
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon bg-success">
                 <i class="fas fa-users"></i>
-                <span>Users</span>
-            </a>
-            <a href="@Url.Action("Reports", "Admin")" class="nav-item">
-                <i class="fas fa-chart-bar"></i>
-                <span>Reports</span>
-            </a>
-            <a href="@Url.Action("Settings", "Admin")" class="nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-        </nav>
-        
-        <div class="sidebar-footer">
-            <div class="user-profile">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number">38,920</h3>
+                <p class="stat-label">Active Users</p>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +8.2%
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon bg-warning">
+                <i class="fas fa-ticket-alt"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number">25,450</h3>
+                <p class="stat-label">Tickets Sold</p>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +15.3%
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon bg-info">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number">$62,875</h3>
+                <p class="stat-label">Revenue</p>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +22.1%
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+        <div class="chart-card">
+            <div class="card-header">
+                <h5 class="card-title">Revenue Development</h5>
+                <div class="card-actions">
+                    <button class="btn btn-sm btn-outline-secondary">Weekly</button>
+                    <button class="btn btn-sm btn-primary">Monthly</button>
                 </div>
-                <div class="user-info">
-                    <div class="user-name">Admin User</div>
-                    <div class="user-role">Administrator</div>
+            </div>
+            <div class="card-body">
+                <canvas id="revenueChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="activities-card">
+            <div class="card-header">
+                <h5 class="card-title">Recent Activity</h5>
+                <a href="#" class="view-all-link">View All</a>
+            </div>
+            <div class="card-body">
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon bg-primary">
+                            <i class="fas fa-calendar-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6>New Event Created</h6>
+                            <p>Summer Music Festival 2025</p>
+                            <span class="activity-time">2 hours ago</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon bg-success">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6>Ticket Sales Update</h6>
+                            <p>150 tickets sold for Tech Conference</p>
+                            <span class="activity-time">4 hours ago</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon bg-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6>Event Reminder</h6>
+                            <p>Art Exhibition starts tomorrow</p>
+                            <span class="activity-time">6 hours ago</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon bg-info">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6>New User Registration</h6>
+                            <p>John Doe joined as organizer</p>
+                            <span class="activity-time">8 hours ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="bottom-row">
+        <div class="events-table-card">
+            <div class="card-header">
+                <h5 class="card-title">Upcoming Events</h5>
+                <div class="card-actions">
+                    <button class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Add Event
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th>Tickets Sold</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="event-info">
+                                        <div class="event-image">
+                                            <img src="/template/assets/images/tour/1.jpg" alt="Event">
+                                        </div>
+                                        <div>
+                                            <h6>Summer Music Festival</h6>
+                                            <small class="text-muted">Music • Outdoor</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Jun 15, 2025</td>
+                                <td>Central Park</td>
+                                <td>
+                                    <div class="progress-info">
+                                        <span>850/1000</span>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-primary" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="event-info">
+                                        <div class="event-image">
+                                            <img src="/template/assets/images/tour/2.jpg" alt="Event">
+                                        </div>
+                                        <div>
+                                            <h6>Tech Conference 2025</h6>
+                                            <small class="text-muted">Technology • Indoor</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Jul 20, 2025</td>
+                                <td>Convention Center</td>
+                                <td>
+                                    <div class="progress-info">
+                                        <span>245/500</span>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-warning" style="width: 49%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="event-info">
+                                        <div class="event-image">
+                                            <img src="/template/assets/images/tour/3.jpg" alt="Event">
+                                        </div>
+                                        <div>
+                                            <h6>Art Exhibition Opening</h6>
+                                            <small class="text-muted">Art • Gallery</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Aug 05, 2025</td>
+                                <td>Modern Art Gallery</td>
+                                <td>
+                                    <div class="progress-info">
+                                        <span>180/200</span>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-stats-card">
+            <div class="card-header">
+                <h5 class="card-title">Quick Stats</h5>
+            </div>
+            <div class="card-body">
+                <div class="quick-stat-item">
+                    <div class="stat-label">This Month</div>
+                    <div class="stat-value">$45,250</div>
+                    <div class="stat-change positive">+18.5%</div>
+                </div>
+                <div class="quick-stat-item">
+                    <div class="stat-label">New Customers</div>
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-change positive">+12.3%</div>
+                </div>
+                <div class="quick-stat-item">
+                    <div class="stat-label">Conversion Rate</div>
+                    <div class="stat-value">3.85%</div>
+                    <div class="stat-change negative">-2.1%</div>
+                </div>
+                <div class="quick-stat-item">
+                    <div class="stat-label">Avg. Ticket Price</div>
+                    <div class="stat-value">$67.50</div>
+                    <div class="stat-change positive">+5.7%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Revenue Chart
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000, 28000, 35000, 32000, 40000, 38000, 45000],
+                    borderColor: '#00b4d8',
+                    backgroundColor: 'rgba(0, 180, 216, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
                 </div>
             </div>
         </div>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StartEvents</title>
+    
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="~/template/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/template/assets/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/template/assets/css/style.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-wrapper">
+        <!-- Left Sidebar -->
+        <div class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="logo-text">EventHub</span>
+                </div>
+                <button class="sidebar-toggle" type="button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h6 class="nav-section-title">Main</h6>
+                    <a href="@Url.Action("Index", "Admin")" class="nav-item active">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Events")" class="nav-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>Events</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>Tickets</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <h6 class="nav-section-title">Analytics</h6>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reports</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>Revenue</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <h6 class="nav-section-title">Management</h6>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Home")" class="nav-item">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Back to Site</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="/template/assets/images/avatar.jpg" alt="User" onerror="this.innerHTML='<i class=\'fas fa-user\'></i>'">
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">@User.Identity.Name</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                    <div class="user-actions">
+                        <div class="dropdown">
+                            <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="dashboard-main">
+            <main class="dashboard-content-wrapper">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Template JS -->
+    <script src="~/template/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/template/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/template/assets/js/main.js"></script>
+    
+    <!-- Dashboard JS -->
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.dashboard-sidebar').classList.toggle('collapsed');
+            document.querySelector('.dashboard-main').classList.toggle('expanded');
+        });
+
+        // Active nav item highlighting
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

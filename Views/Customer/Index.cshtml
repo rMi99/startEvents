@@ -1,17 +1,21 @@
 @model dynamic
 @{
     ViewData["Title"] = "Customer Dashboard";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<div class="container-fluid">
-    <!-- Welcome Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-gradient-info text-white">
-                <div class="card-body">
-                    <h1 class="mb-0"><i class="fas fa-user me-2"></i>Welcome Back!</h1>
-                    <p class="mb-0">Discover amazing events and manage your bookings</p>
-                </div>
+<div class="dashboard-content">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="page-title">Welcome Back!</h2>
+                <p class="page-subtitle">Discover amazing events and manage your bookings</p>
+            </div>
+            <div>
+                <a href="@Url.Action("Index", "Events")" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Browse Events
+                </a>
             </div>
         </div>
     </div>
@@ -19,78 +23,93 @@
     <!-- Statistics Cards -->
     <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card stats-card">
-                <div class="card-body text-center">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-ticket-alt text-primary"></i>
+            <div class="stats-card">
+                <div class="stats-content">
+                    <div class="stats-number">@Model.TotalTickets</div>
+                    <div class="stats-label">My Tickets</div>
+                    <div class="stats-change positive">
+                        <i class="fas fa-arrow-up"></i> 5%
                     </div>
-                    <h3 class="text-primary">@Model.TotalTickets</h3>
-                    <p class="text-muted mb-0">My Tickets</p>
+                </div>
+                <div class="stats-icon">
+                    <i class="fas fa-ticket-alt"></i>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card stats-card">
-                <div class="card-body text-center">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-calendar-check text-success"></i>
+            <div class="stats-card">
+                <div class="stats-content">
+                    <div class="stats-number">@Model.UpcomingEvents</div>
+                    <div class="stats-label">Upcoming Events</div>
+                    <div class="stats-change positive">
+                        <i class="fas fa-arrow-up"></i> 8%
                     </div>
-                    <h3 class="text-success">@Model.UpcomingEvents</h3>
-                    <p class="text-muted mb-0">Upcoming Events</p>
+                </div>
+                <div class="stats-icon">
+                    <i class="fas fa-calendar-check"></i>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card stats-card">
-                <div class="card-body text-center">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-dollar-sign text-warning"></i>
+            <div class="stats-card">
+                <div class="stats-content">
+                    <div class="stats-number">$@Model.TotalSpent.ToString("N2")</div>
+                    <div class="stats-label">Total Spent</div>
+                    <div class="stats-change positive">
+                        <i class="fas fa-arrow-up"></i> 12%
                     </div>
-                    <h3 class="text-warning">$@Model.TotalSpent.ToString("N2")</h3>
-                    <p class="text-muted mb-0">Total Spent</p>
+                </div>
+                <div class="stats-icon">
+                    <i class="fas fa-dollar-sign"></i>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card stats-card">
-                <div class="card-body text-center">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-star text-info"></i>
+            <div class="stats-card">
+                <div class="stats-content">
+                    <div class="stats-number">@Model.LoyaltyPoints</div>
+                    <div class="stats-label">Loyalty Points</div>
+                    <div class="stats-change positive">
+                        <i class="fas fa-arrow-up"></i> 15%
                     </div>
-                    <h3 class="text-info">@Model.LoyaltyPoints</h3>
-                    <p class="text-muted mb-0">Loyalty Points</p>
+                </div>
+                <div class="stats-icon">
+                    <i class="fas fa-star"></i>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Quick Actions -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card">
+            <div class="dashboard-card">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                    <h5 class="card-title">Quick Actions</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3 mb-3">
-                            <a href="@Url.Action("BrowseEvents", "Customer")" class="btn btn-primary btn-block">
+                            <a href="@Url.Action("Index", "Events")" class="btn btn-primary w-100">
                                 <i class="fas fa-search me-2"></i>Browse Events
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <a href="@Url.Action("MyTickets", "Customer")" class="btn btn-outline-success btn-block">
+                            <a href="#" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-ticket-alt me-2"></i>My Tickets
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <a href="@Url.Action("LoyaltyPoints", "Customer")" class="btn btn-outline-warning btn-block">
-                                <i class="fas fa-star me-2"></i>Loyalty Points
+                            <a href="#" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-heart me-2"></i>Favorites
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <a href="@Url.Action("Profile", "Customer")" class="btn btn-outline-info btn-block">
-                                <i class="fas fa-user me-2"></i>My Profile
+                            <a href="#" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-user-cog me-2"></i>Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
                             </a>
                         </div>
                     </div>
@@ -98,6 +117,21 @@
             </div>
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Tickets Section -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">My Recent Tickets</h5>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline-secondary btn-sm">View All</a>
+                    </div>
+                </div>
+                <div class="card-body">
 
     <!-- Recent Tickets and Upcoming Events -->
     <div class="row">

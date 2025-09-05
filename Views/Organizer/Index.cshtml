@@ -1,79 +1,77 @@
 @model online_event_booking.Models.OrganizerDashboardViewModel
 @{
     ViewData["Title"] = "Organizer Dashboard";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<div class="container-fluid dashboard-container">
-    <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <h2 class="dashboard-title">Organizer Dashboard</h2>
+<div class="dashboard-content">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div>
+            <h1>Organizer Dashboard</h1>
+            <p class="text-muted">Manage your events and track performance</p>
         </div>
-        <div class="col-md-6 text-end">
-            <a href="@Url.Action("CreateEvent")" class="btn btn-primary btn-modern">
+        <div>
+            <a href="@Url.Action("CreateEvent")" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Create New Event
             </a>
         </div>
     </div>
 
-    <!-- Key Metrics Cards -->
-    <div class="row mb-4">
+    <!-- Key Metrics -->
+    <div class="stats-row">
+        <div class="stats-card">
+            <div class="stats-content">
+                <div class="stats-number">@(Model.TotalEvents)</div>
+                <div class="stats-label">Total Events</div>
+                <div class="stats-change positive">
+                    <i class="fas fa-arrow-up"></i> 8%
+                </div>
+            </div>
+            <div class="stats-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stats-content">
+                <div class="stats-number">@(Model.ActiveEvents)</div>
+                <div class="stats-label">Active Events</div>
+                <div class="stats-change positive">
+                    <i class="fas fa-arrow-up"></i> 12%
+                </div>
+            </div>
+            <div class="stats-icon">
+                <i class="fas fa-play"></i>
+            </div>
+        </div>
+
         <div class="col-md-3 col-sm-6 mb-3">
-            <div class="metric-card">
-                <div class="metric-header">
-                    <span class="metric-label">EVENTS</span>
-                    <div class="metric-icon">
-                        <i class="fas fa-calendar-alt"></i>
+            <div class="stats-card">
+                <div class="stats-content">
+                    <div class="stats-number">@(Model.TotalTicketsSold)</div>
+                    <div class="stats-label">Total Tickets</div>
+                    <div class="stats-change positive">
+                        <i class="fas fa-arrow-up"></i> 15%
                     </div>
                 </div>
-                <div class="metric-value">@(Model.TotalEvents)</div>
-                <div class="metric-growth positive">
-                    <i class="fas fa-arrow-up me-1"></i>8% from last month
+                <div class="stats-icon">
+                    <i class="fas fa-ticket-alt"></i>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3 col-sm-6 mb-3">
-            <div class="metric-card">
-                <div class="metric-header">
-                    <span class="metric-label">ACTIVE</span>
-                    <div class="metric-icon">
-                        <i class="fas fa-play"></i>
+            <div class="stats-card">
+                <div class="stats-content">
+                    <div class="stats-number">$@(Model.TotalRevenue)</div>
+                    <div class="stats-label">Total Revenue</div>
+                    <div class="stats-change positive">
+                        <i class="fas fa-arrow-up"></i> 20%
                     </div>
                 </div>
-                <div class="metric-value">@(Model.ActiveEvents)</div>
-                <div class="metric-growth positive">
-                    <i class="fas fa-arrow-up me-1"></i>12% from last month
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="metric-card">
-                <div class="metric-header">
-                    <span class="metric-label">TICKETS</span>
-                    <div class="metric-icon">
-                        <i class="fas fa-ticket-alt"></i>
-                    </div>
-                </div>
-                <div class="metric-value">@(Model.TotalTicketsSold)</div>
-                <div class="metric-growth positive">
-                    <i class="fas fa-arrow-up me-1"></i>15% from last month
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="metric-card">
-                <div class="metric-header">
-                    <span class="metric-label">REVENUE</span>
-                    <div class="metric-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                </div>
-                <div class="metric-value">$@(Model.TotalRevenue)</div>
-                <div class="metric-growth positive">
-                    <i class="fas fa-arrow-up me-1"></i>20% from last month
+                <div class="stats-icon">
+                    <i class="fas fa-dollar-sign"></i>
                 </div>
             </div>
         </div>

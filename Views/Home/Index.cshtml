@@ -2,283 +2,478 @@
     ViewData["Title"] = "Home";
 }
 
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="hero-content fade-in-up">
-                    <h1 class="display-1 mb-4">Let's Start Your <span class="text-gradient">Adventure</span></h1>
-                    <p class="lead mb-4">Discover amazing events, concerts, and cultural experiences. Book your tickets now and create unforgettable memories.</p>
-                    <div class="d-flex gap-3">
-                        <a href="#events" class="btn btn-primary btn-lg">
-                            <i class="fas fa-calendar-alt me-2"></i>Explore Events
-                        </a>
-                        <a href="#about" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-play me-2"></i>Learn More
-                        </a>
+<!-- Hero Section with Template Style -->
+<div class="th-hero-wrapper hero-1" id="hero">
+    <div class="swiper th-slider hero-slider-1" id="heroSlide1">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="hero-inner">
+                    <div class="th-hero-bg" style="background: linear-gradient(135deg, #684DF4 0%, #8a2be2 100%); min-height: 70vh;"></div>
+                    <div class="container">
+                        <div class="hero-style1">
+                            <span class="sub-title style1" data-ani="slideinup" data-ani-delay="0.2s">Create unforgettable experiences</span>
+                            <h1 class="hero-title" data-ani="slideinup" data-ani-delay="0.4s">Discover Amazing Events Near You</h1>
+                            <div class="btn-group" data-ani="slideinup" data-ani-delay="0.6s">
+                                <a asp-controller="Events" asp-action="Index" class="th-btn th-icon">Explore Events</a>
+                                <a href="#about" class="th-btn style2 th-icon">Learn More</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="hero-image text-center">
-                    <i class="fas fa-music" style="font-size: 15rem; opacity: 0.3;"></i>
+            <div class="swiper-slide">
+                <div class="hero-inner">
+                    <div class="th-hero-bg" style="background: linear-gradient(135deg, #FC3737 0%, #ffbf4f 100%); min-height: 70vh;"></div>
+                    <div class="container">
+                        <div class="hero-style1">
+                            <span class="sub-title style1" data-ani="slideinup" data-ani-delay="0.2s">Book tickets instantly</span>
+                            <h1 class="hero-title" data-ani="slideinup" data-ani-delay="0.4s">Your Gateway to Entertainment</h1>
+                            <div class="btn-group" data-ani="slideinup" data-ani-delay="0.6s">
+                                <a asp-controller="Events" asp-action="Index" class="th-btn th-icon">Book Now</a>
+                                <a href="#features" class="th-btn style2 th-icon">Our Features</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="th-swiper-custom">
+            <button data-slider-prev="#heroSlide1" class="slider-arrow slider-prev"><i class="fas fa-chevron-left"></i></button>
+            <div class="slider-pagination"></div>
+            <button data-slider-next="#heroSlide1" class="slider-arrow slider-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
-</section>
+</div>
 
-<!-- Search Section -->
-<div class="container">
-    <div class="search-section">
-        <h3 class="text-center mb-4">Find Your Perfect Event</h3>
-        <form class="row g-3">
-            <div class="col-md-4">
-                <label for="searchEvent" class="form-label">Event Name</label>
-                <input type="text" class="form-control" id="searchEvent" placeholder="Search events...">
-            </div>
-            <div class="col-md-3">
-                <label for="searchCategory" class="form-label">Category</label>
-                <select class="form-select" id="searchCategory">
-                    <option selected>All Categories</option>
-                    <option value="concert">Concerts</option>
-                    <option value="theatre">Theatre</option>
-                    <option value="cultural">Cultural</option>
-                    <option value="sports">Sports</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="searchDate" class="form-label">Date</label>
-                <input type="date" class="form-control" id="searchDate">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="fas fa-search"></i>
-                </button>
+<!-- Event Search Section -->
+<div class="booking-sec">
+    <div class="container">
+        <form class="booking-form">
+            <div class="input-wrap">
+                <div class="row align-items-center justify-content-between">
+                    <div class="form-group col-md-6 col-lg-auto">
+                        <div class="icon"><i class="fa-light fa-calendar"></i></div>
+                        <div class="search-input">
+                            <label>Event Type</label>
+                            <select class="form-select nice-select">
+                                <option value="" selected disabled>Select Event Type</option>
+                                <option value="concert">Concerts</option>
+                                <option value="theatre">Theatre</option>
+                                <option value="cultural">Cultural Events</option>
+                                <option value="sports">Sports</option>
+                                <option value="conference">Conferences</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-auto">
+                        <div class="icon"><i class="fa-regular fa-map-marker-alt"></i></div>
+                        <div class="search-input">
+                            <label>Location</label>
+                            <select class="nice-select">
+                                <option value="" selected disabled>Select Location</option>
+                                <option value="colombo">Colombo</option>
+                                <option value="kandy">Kandy</option>
+                                <option value="galle">Galle</option>
+                                <option value="anuradhapura">Anuradhapura</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-auto">
+                        <div class="icon"><i class="fa-light fa-clock"></i></div>
+                        <div class="search-input">
+                            <label>Date</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-auto">
+                        <div class="icon"><i class="fa-light fa-tag"></i></div>
+                        <div class="search-input">
+                            <label>Price Range</label>
+                            <select class="form-select nice-select">
+                                <option value="" selected disabled>Any Price</option>
+                                <option value="free">Free</option>
+                                <option value="low">Under $25</option>
+                                <option value="medium">$25 - $100</option>
+                                <option value="high">$100+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-btn col-md-12 col-lg-auto">
+                        <button class="th-btn"><i class="fas fa-search me-2"></i>Search Events</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
+<!-- Event Categories Section -->
+<section class="category-area bg-top-center space" id="events">
+    <div class="container th-container">
+        <div class="title-area text-center">
+            <span class="sub-title">Discover Events For You</span>
+            <h2 class="sec-title">Event Categories</h2>
+        </div>
+        <div class="swiper th-slider has-shadow categorySlider" data-slider-options='{"spaceBetween": "30","breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"2"},"768":{"slidesPerView":"3"},"992":{"slidesPerView":"4"},"1200":{"slidesPerView":"5"}}}'>
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="category-card single">
+                        <div class="box-img global-img">
+                            <div class="d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #684DF4 0%, #8a2be2 100%);">
+                                <i class="fas fa-music text-white" style="font-size: 4rem;"></i>
+                            </div>
+                        </div>
+                        <h3 class="box-title"><a asp-controller="Events" asp-action="Index">Concerts</a></h3>
+                        <a class="line-btn" asp-controller="Events" asp-action="Index">See more</a>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="category-card single">
+                        <div class="box-img global-img">
+                            <div class="d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #FC3737 0%, #ffbf4f 100%);">
+                                <i class="fas fa-theater-masks text-white" style="font-size: 4rem;"></i>
+                            </div>
+                        </div>
+                        <h3 class="box-title"><a asp-controller="Events" asp-action="Index">Theatre</a></h3>
+                        <a class="line-btn" asp-controller="Events" asp-action="Index">See more</a>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="category-card single">
+                        <div class="box-img global-img">
+                            <div class="d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #086ad8 0%, #104CBA 100%);">
+                                <i class="fas fa-futbol text-white" style="font-size: 4rem;"></i>
+                            </div>
+                        </div>
+                        <h3 class="box-title"><a asp-controller="Events" asp-action="Index">Sports</a></h3>
+                        <a class="line-btn" asp-controller="Events" asp-action="Index">See more</a>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="category-card single">
+                        <div class="box-img global-img">
+                            <div class="d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #F79C53 0%, #fa709a 100%);">
+                                <i class="fas fa-palette text-white" style="font-size: 4rem;"></i>
+                            </div>
+                        </div>
+                        <h3 class="box-title"><a asp-controller="Events" asp-action="Index">Cultural</a></h3>
+                        <a class="line-btn" asp-controller="Events" asp-action="Index">See more</a>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="category-card single">
+                        <div class="box-img global-img">
+                            <div class="d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #6957af 0%, #323F7C 100%);">
+                                <i class="fas fa-users text-white" style="font-size: 4rem;"></i>
+                            </div>
+                        </div>
+                        <h3 class="box-title"><a asp-controller="Events" asp-action="Index">Conferences</a></h3>
+                        <a class="line-btn" asp-controller="Events" asp-action="Index">See more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-pagination"></div>
+        </div>
+    </div>
+</section>
+
 <!-- Featured Events Section -->
-<section class="py-5" id="events">
+<section class="tour-area position-relative bg-top-center overflow-hidden space" id="featured-events">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-3 mb-3">Featured Events</h2>
-                <p class="lead text-muted">Discover the most popular and trending events happening near you</p>
-            </div>
-        </div>
-        
-        <div class="row g-4 mb-4">
-            <!-- Featured Categories -->
-            <div class="col-md-6 col-lg-3">
-                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
-                    <div class="category-icon mb-3">
-                        <i class="fas fa-music" style="font-size: 3rem; color: var(--primary-color);"></i>
-                    </div>
-                    <h5>Concerts</h5>
-                    <p class="text-muted">Live music experiences</p>
-                    <span class="badge bg-primary">25 Events</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
-                    <div class="category-icon mb-3">
-                        <i class="fas fa-theater-masks" style="font-size: 3rem; color: var(--secondary-color);"></i>
-                    </div>
-                    <h5>Theatre</h5>
-                    <p class="text-muted">Drama and performances</p>
-                    <span class="badge bg-secondary">12 Events</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
-                    <div class="category-icon mb-3">
-                        <i class="fas fa-palette" style="font-size: 3rem; color: var(--accent-color);"></i>
-                    </div>
-                    <h5>Cultural</h5>
-                    <p class="text-muted">Art and culture events</p>
-                    <span class="badge" style="background: var(--accent-color);">18 Events</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="category-card text-center p-4 bg-white rounded-3 shadow-soft h-100">
-                    <div class="category-icon mb-3">
-                        <i class="fas fa-futbol" style="font-size: 3rem; color: var(--success-color);"></i>
-                    </div>
-                    <h5>Sports</h5>
-                    <p class="text-muted">Athletic competitions</p>
-                    <span class="badge bg-success">8 Events</span>
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="title-area text-center">
+                    <span class="sub-title">Best Events For You</span>
+                    <h2 class="sec-title">Featured Events</h2>
+                    <p class="sec-text">Discover the most popular and trending events happening near you</p>
                 </div>
             </div>
         </div>
-
-        <!-- Sample Event Cards -->
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="event-card">
-                    <div class="event-image">
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            <i class="fas fa-music text-white" style="font-size: 4rem;"></i>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-danger">Hot</span>
-                        </div>
-                    </div>
-                    <div class="event-content">
-                        <div class="event-date">
-                            <i class="fas fa-calendar-alt me-2"></i>Dec 15, 2025
-                        </div>
-                        <h5 class="event-title">Rock Concert 2025</h5>
-                        <div class="event-location mb-3">
-                            <i class="fas fa-map-marker-alt me-2"></i>Colombo Arena
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="event-price">$45.00</span>
-                            <a href="#" class="btn btn-primary btn-sm">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-4">
-                <div class="event-card">
-                    <div class="event-image" style="background: var(--gradient-success);">
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            <i class="fas fa-theater-masks text-white" style="font-size: 4rem;"></i>
+        <div class="slider-area tour-slider">
+            <div class="swiper th-slider has-shadow slider-drag-wrap" data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"1"},"768":{"slidesPerView":"2"},"992":{"slidesPerView":"2"},"1200":{"slidesPerView":"3"},"1300":{"slidesPerView":"4"}}}'>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="tour-box th-ani gsap-cursor">
+                            <div class="tour-box_img global-img">
+                                <div class="d-flex align-items-center justify-content-center" style="height: 250px; background: linear-gradient(135deg, #684DF4 0%, #8a2be2 100%);">
+                                    <i class="fas fa-music text-white" style="font-size: 5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="tour-content">
+                                <h3 class="box-title"><a asp-controller="Events" asp-action="Details">Rock Concert 2025</a></h3>
+                                <div class="tour-rating">
+                                    <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
+                                        <span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5 based on <span class="rating">4.8</span>(4.8 Rating)</span>
+                                    </div>
+                                    <a href="#" class="woocommerce-review-link">(<span class="count">4.8</span> Rating)</a>
+                                </div>
+                                <h4 class="tour-box_price"><span class="currency">$45.00</span>/Person</h4>
+                                <div class="tour-action">
+                                    <span><i class="fa-light fa-calendar"></i>Dec 15, 2025</span>
+                                    <a asp-controller="Events" asp-action="Details" class="th-btn style4 th-icon">Book Now</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="event-content">
-                        <div class="event-date">
-                            <i class="fas fa-calendar-alt me-2"></i>Dec 20, 2025
-                        </div>
-                        <h5 class="event-title">Shakespeare Night</h5>
-                        <div class="event-location mb-3">
-                            <i class="fas fa-map-marker-alt me-2"></i>Royal Theatre
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="event-price">$35.00</span>
-                            <a href="#" class="btn btn-primary btn-sm">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-4">
-                <div class="event-card">
-                    <div class="event-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            <i class="fas fa-palette text-white" style="font-size: 4rem;"></i>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-warning">New</span>
+                    <div class="swiper-slide">
+                        <div class="tour-box th-ani gsap-cursor">
+                            <div class="tour-box_img global-img">
+                                <div class="d-flex align-items-center justify-content-center" style="height: 250px; background: linear-gradient(135deg, #FC3737 0%, #ffbf4f 100%);">
+                                    <i class="fas fa-theater-masks text-white" style="font-size: 5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="tour-content">
+                                <h3 class="box-title"><a asp-controller="Events" asp-action="Details">Shakespeare Night</a></h3>
+                                <div class="tour-rating">
+                                    <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
+                                        <span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5 based on <span class="rating">4.6</span>(4.6 Rating)</span>
+                                    </div>
+                                    <a href="#" class="woocommerce-review-link">(<span class="count">4.6</span> Rating)</a>
+                                </div>
+                                <h4 class="tour-box_price"><span class="currency">$35.00</span>/Person</h4>
+                                <div class="tour-action">
+                                    <span><i class="fa-light fa-calendar"></i>Dec 20, 2025</span>
+                                    <a asp-controller="Events" asp-action="Details" class="th-btn style4 th-icon">Book Now</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="event-content">
-                        <div class="event-date">
-                            <i class="fas fa-calendar-alt me-2"></i>Jan 05, 2026
+                    <div class="swiper-slide">
+                        <div class="tour-box th-ani gsap-cursor">
+                            <div class="tour-box_img global-img">
+                                <div class="d-flex align-items-center justify-content-center" style="height: 250px; background: linear-gradient(135deg, #086ad8 0%, #104CBA 100%);">
+                                    <i class="fas fa-futbol text-white" style="font-size: 5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="tour-content">
+                                <h3 class="box-title"><a asp-controller="Events" asp-action="Details">Football Championship</a></h3>
+                                <div class="tour-rating">
+                                    <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
+                                        <span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5 based on <span class="rating">4.9</span>(4.9 Rating)</span>
+                                    </div>
+                                    <a href="#" class="woocommerce-review-link">(<span class="count">4.9</span> Rating)</a>
+                                </div>
+                                <h4 class="tour-box_price"><span class="currency">$60.00</span>/Person</h4>
+                                <div class="tour-action">
+                                    <span><i class="fa-light fa-calendar"></i>Jan 10, 2026</span>
+                                    <a asp-controller="Events" asp-action="Details" class="th-btn style4 th-icon">Book Now</a>
+                                </div>
+                            </div>
                         </div>
-                        <h5 class="event-title">Art Exhibition</h5>
-                        <div class="event-location mb-3">
-                            <i class="fas fa-map-marker-alt me-2"></i>Gallery One
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-box th-ani gsap-cursor">
+                            <div class="tour-box_img global-img">
+                                <div class="d-flex align-items-center justify-content-center" style="height: 250px; background: linear-gradient(135deg, #F79C53 0%, #fa709a 100%);">
+                                    <i class="fas fa-palette text-white" style="font-size: 5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="tour-content">
+                                <h3 class="box-title"><a asp-controller="Events" asp-action="Details">Art Exhibition</a></h3>
+                                <div class="tour-rating">
+                                    <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
+                                        <span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5 based on <span class="rating">4.7</span>(4.7 Rating)</span>
+                                    </div>
+                                    <a href="#" class="woocommerce-review-link">(<span class="count">4.7</span> Rating)</a>
+                                </div>
+                                <h4 class="tour-box_price"><span class="currency">$25.00</span>/Person</h4>
+                                <div class="tour-action">
+                                    <span><i class="fa-light fa-calendar"></i>Jan 05, 2026</span>
+                                    <a asp-controller="Events" asp-action="Details" class="th-btn style4 th-icon">Book Now</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="event-price">$25.00</span>
-                            <a href="#" class="btn btn-primary btn-sm">Book Now</a>
-                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="text-center mt-5">
-            <a href="#" class="btn btn-outline-primary btn-lg">
-                <i class="fas fa-eye me-2"></i>View All Events
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="py-5 bg-light" id="about">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-3 mb-3">Why Choose StarEvents?</h2>
-                <p class="lead text-muted">Experience the best event booking platform with amazing features</p>
-            </div>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h5>Instant Booking</h5>
-                    <p class="text-muted">Book your tickets instantly with our fast and secure booking system.</p>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="fas fa-qrcode"></i>
-                    </div>
-                    <h5>QR E-Tickets</h5>
-                    <p class="text-muted">Get digital tickets with QR codes for easy and contactless entry.</p>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h5>Secure Payments</h5>
-                    <p class="text-muted">Safe and secure payment processing with multiple payment options.</p>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="fas fa-gift"></i>
-                    </div>
-                    <h5>Loyalty Rewards</h5>
-                    <p class="text-muted">Earn points and get exclusive discounts on future bookings.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- About/Features Section -->
+<div class="about-area position-relative overflow-hidden space" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="img-box1">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 300px; background: linear-gradient(135deg, #684DF4 0%, #8a2be2 100%); border-radius: 15px;">
+                        <i class="fas fa-ticket-alt text-white" style="font-size: 8rem;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="ps-xl-4 ms-xl-2">
+                    <div class="title-area mb-20 pe-xl-5 me-xl-5">
+                        <span class="sub-title style1">Why Choose StarEvents?</span>
+                        <h2 class="sec-title mb-20 pe-xl-5 me-xl-5 heading">Your Ultimate Event Booking Experience</h2>
+                        <p class="sec-text mb-30">Experience the best event booking platform with amazing features designed to make your event discovery and booking seamless and enjoyable.</p>
+                    </div>
+                    <div class="about-item-wrap">
+                        <div class="about-item">
+                            <div class="about-item_img">
+                                <i class="fas fa-bolt" style="font-size: 2rem; color: #684DF4;"></i>
+                            </div>
+                            <div class="about-item_centent">
+                                <h5 class="box-title">Instant Booking</h5>
+                                <p class="about-item_text">Book your tickets instantly with our fast and secure booking system.</p>
+                            </div>
+                        </div>
+                        <div class="about-item">
+                            <div class="about-item_img">
+                                <i class="fas fa-qrcode" style="font-size: 2rem; color: #FC3737;"></i>
+                            </div>
+                            <div class="about-item_centent">
+                                <h5 class="box-title">QR E-Tickets</h5>
+                                <p class="about-item_text">Get digital tickets with QR codes for easy and contactless entry.</p>
+                            </div>
+                        </div>
+                        <div class="about-item">
+                            <div class="about-item_img">
+                                <i class="fas fa-shield-alt" style="font-size: 2rem; color: #086ad8;"></i>
+                            </div>
+                            <div class="about-item_centent">
+                                <h5 class="box-title">Secure Payments</h5>
+                                <p class="about-item_text">Safe and secure payment processing with multiple payment options.</p>
+                            </div>
+                        </div>
+                        <div class="about-item">
+                            <div class="about-item_img">
+                                <i class="fas fa-gift" style="font-size: 2rem; color: #F79C53;"></i>
+                            </div>
+                            <div class="about-item_centent">
+                                <h5 class="box-title">Loyalty Rewards</h5>
+                                <p class="about-item_text">Earn points and get exclusive discounts on future bookings.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-35">
+                        <a asp-controller="Events" asp-action="Index" class="th-btn style3 th-icon">Explore Events</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
-        // Add smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        // Initialize Swiper sliders when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero slider
+            if (document.querySelector('#heroSlide1')) {
+                var heroSwiper = new Swiper('#heroSlide1', {
+                    effect: 'fade',
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.slider-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '[data-slider-next="#heroSlide1"]',
+                        prevEl: '[data-slider-prev="#heroSlide1"]',
+                    },
+                    loop: true,
+                });
+            }
 
-        // Add loading animation to event cards
-        window.addEventListener('load', function() {
-            const cards = document.querySelectorAll('.event-card, .feature-box');
+            // Category slider
+            if (document.querySelector('.categorySlider')) {
+                var categorySwiper = new Swiper('.categorySlider', {
+                    spaceBetween: 30,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.slider-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        0: {
+                            slidesPerView: 1
+                        },
+                        576: {
+                            slidesPerView: 2
+                        },
+                        768: {
+                            slidesPerView: 3
+                        },
+                        992: {
+                            slidesPerView: 4
+                        },
+                        1200: {
+                            slidesPerView: 5
+                        }
+                    }
+                });
+            }
+
+            // Tour/Events slider
+            if (document.querySelector('.tour-slider .swiper')) {
+                var tourSwiper = new Swiper('.tour-slider .swiper', {
+                    spaceBetween: 30,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    },
+                    breakpoints: {
+                        0: {
+                            slidesPerView: 1
+                        },
+                        576: {
+                            slidesPerView: 1
+                        },
+                        768: {
+                            slidesPerView: 2
+                        },
+                        992: {
+                            slidesPerView: 2
+                        },
+                        1200: {
+                            slidesPerView: 3
+                        },
+                        1300: {
+                            slidesPerView: 4
+                        }
+                    }
+                });
+            }
+
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add loading animation to cards
+            const cards = document.querySelectorAll('.category-card, .tour-box, .about-item');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.1}s`;
                 card.classList.add('fade-in-up');
             });
+
+            // Handle search form submission
+            const searchForm = document.querySelector('.booking-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Add your search logic here
+                    console.log('Search submitted');
+                    // Redirect to events page with search parameters
+                    window.location.href = '/Events';
+                });
+            }
         });
     </script>
 }

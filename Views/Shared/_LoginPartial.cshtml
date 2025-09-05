@@ -3,12 +3,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-1"></i>@(User.Identity?.Name ?? "User")
+    <div class="header-user-menu">
+        <a href="#" class="th-btn style3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-regular fa-user me-1"></i>@(User.Identity?.Name ?? "User")
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
             @if (User.IsInRole("Admin"))
@@ -27,28 +26,13 @@
                         <i class="fas fa-calendar-check me-2"></i>Organizer Dashboard
                     </a>
                 </li>
-                <li>
-                    <a class="dropdown-item" asp-controller="Organizer" asp-action="MyEvents">
-                        <i class="fas fa-list me-2"></i>My Events
-                    </a>
-                </li>
                 <li><hr class="dropdown-divider"></li>
             }
             @if (User.IsInRole("Customer"))
             {
                 <li>
                     <a class="dropdown-item" asp-controller="Customer" asp-action="Index">
-                        <i class="fas fa-user me-2"></i>My Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" asp-controller="Customer" asp-action="MyTickets">
-                        <i class="fas fa-ticket-alt me-2"></i>My Tickets
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" asp-controller="Customer" asp-action="LoyaltyPoints">
-                        <i class="fas fa-star me-2"></i>Loyalty Points
+                        <i class="fas fa-user me-2"></i>Customer Dashboard
                     </a>
                 </li>
                 <li><hr class="dropdown-divider"></li>
@@ -66,19 +50,11 @@
                 </form>
             </li>
         </ul>
-    </li>
+    </div>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
-            <i class="fas fa-sign-in-alt me-1"></i>Login
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="btn btn-primary ms-2" asp-area="Identity" asp-page="/Account/Register">
-            <i class="fas fa-user-plus me-1"></i>Sign Up
-        </a>
-    </li>
+    <a asp-area="Identity" asp-page="/Account/Login" class="th-btn style3">
+        Sign In / Register<i class="fa-regular fa-user ms-2"></i>
+    </a>
 }
-</ul>
