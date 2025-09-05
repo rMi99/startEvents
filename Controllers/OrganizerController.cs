@@ -23,6 +23,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Organizer Dashboard";
+            ViewData["ActivePage"] = "Dashboard";
             
             var userId = _userManager.GetUserId(User);
             if (userId == null) return RedirectToAction("Login", "Account");
@@ -44,15 +45,13 @@ namespace online_event_booking.Controllers
                 .Where(t => t.IsPaid && myEvents.Select(e => e.Id).Contains(t.EventId))
                 .SumAsync(t => t.TotalAmount);
 
-            var dashboardData = new OrganizerDashboardViewModel
+            var dashboardData = new
             {
                 TotalEvents = myEvents.Count,
-                ActiveEvents = myEvents.Count(e => e.EventDate > DateTime.Now),
+                PublishedEvents = myEvents.Count(e => e.IsPublished),
                 TotalTicketsSold = totalTicketsSold,
                 TotalRevenue = totalRevenue,
-                RecentEvents = myEvents.OrderByDescending(e => e.CreatedAt).Take(5).ToList(),
-                UpcomingEvents = myEvents.Where(e => e.EventDate > DateTime.Now)
-                                        .OrderBy(e => e.EventDate).Take(3).ToList()
+                MyEvents = myEvents.OrderByDescending(e => e.CreatedAt).Take(5).ToList()
             };
 
             return View(dashboardData);
@@ -61,6 +60,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> MyEvents()
         {
             ViewData["Title"] = "My Events";
+            ViewData["ActivePage"] = "MyEvents";
             
             var userId = _userManager.GetUserId(User);
             if (userId == null) return RedirectToAction("Login", "Account");
@@ -78,6 +78,7 @@ namespace online_event_booking.Controllers
         public IActionResult CreateEvent()
         {
             ViewData["Title"] = "Create New Event";
+            ViewData["ActivePage"] = "CreateEvent";
             return View();
         }
 
@@ -102,37 +103,61 @@ namespace online_event_booking.Controllers
             return View(eventModel);
         }
 
-        public async Task<IActionResult> EventTickets(int id)
+        public async Task<IActionResult> EventTickets(int? id)
         {
             ViewData["Title"] = "Event Tickets";
+            ViewData["ActivePage"] = "EventTickets";
             
             var userId = _userManager.GetUserId(User);
-            var eventEntity = await _context.Events
-                .Where(e => e.Id == id && e.OrganizerId == userId)
-                .Include(e => e.Venue)
-                .FirstOrDefaultAsync();
-
-            if (eventEntity == null)
+            
+            if (id.HasValue)
             {
-                return NotFound();
+                var eventEntity = await _context.Events
+                    .Where(e => e.Id == id && e.OrganizerId == userId)
+                    .Include(e => e.Venue)
+                    .FirstOrDefaultAsync();
+
+                if (eventEntity == null)
+                {
+                    return NotFound();
+                }
+
+                var tickets = await _context.Tickets
+                    .Where(t => t.EventId == id)
+                    .Include(t => t.Customer)
+                    .ToListAsync();
+
+                ViewBag.Event = eventEntity;
+                return View(tickets);
             }
+            else
+            {
+                // Show all tickets for organizer's events
+                var events = await _context.Events
+                    .Where(e => e.OrganizerId == userId)
+                    .ToListAsync();
+                
+                var eventIds = events.Select(e => e.Id).ToList();
+                
+                var allTickets = await _context.Tickets
+                    .Where(t => eventIds.Contains(t.EventId))
+                    .Include(t => t.Customer)
+                    .Include(t => t.Event)
+                    .ToListAsync();
 
-            var tickets = await _context.Tickets
-                .Where(t => t.EventId == id)
-                .Include(t => t.Customer)
-                .ToListAsync();
-
-            ViewBag.Event = eventEntity;
-            return View(tickets);
+                return View(allTickets);
+            }
         }
 
         public async Task<IActionResult> Analytics()
         {
             ViewData["Title"] = "Event Analytics";
+            ViewData["ActivePage"] = "Analytics";
             
             var userId = _userManager.GetUserId(User);
             var events = await _context.Events
                 .Where(e => e.OrganizerId == userId)
+                .Include(e => e.Venue)
                 .ToListAsync();
 
             return View(events);

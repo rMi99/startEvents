@@ -1,0 +1,88 @@
+@model IEnumerable<online_event_booking.Data.Entities.LoyaltyPoint>
+@{
+    ViewData["Title"] = "Loyalty Points";
+    ViewData["ActivePage"] = "LoyaltyPoints";
+    Layout = "_CustomerLayout";
+}
+
+<div class="loyalty-points">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-gradient-primary text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-star fa-3x mb-3"></i>
+                    <h2 class="mb-0">@Model.Sum(lp => lp.Points)</h2>
+                    <p class="mb-0">Total Points</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-gift me-2"></i>Loyalty Program Benefits
+                    </h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Earn 1 point for every $1 spent</li>
+                        <li><i class="fas fa-check text-success me-2"></i>100 points = $10 discount</li>
+                        <li><i class="fas fa-check text-success me-2"></i>500 points = VIP status</li>
+                        <li><i class="fas fa-check text-success me-2"></i>1000 points = Exclusive event access</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-history me-2"></i>Points History
+            </h5>
+        </div>
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var point in Model)
+                            {
+                                <tr>
+                                    <td>@point.EarnedDate.ToString("MMM dd, yyyy")</td>
+                                    <td>@point.Description</td>
+                                    <td>
+                                        <span class="badge bg-success">+@point.Points</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-4">
+                    <i class="fas fa-star fa-3x text-muted mb-3"></i>
+                    <h6 class="text-muted">No loyalty points yet</h6>
+                    <p class="text-muted">Start booking events to earn loyalty points!</p>
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-calendar me-2"></i>Browse Events
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    }
+</style>

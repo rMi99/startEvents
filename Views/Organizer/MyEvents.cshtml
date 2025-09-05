@@ -1,29 +1,29 @@
 @model IEnumerable<online_event_booking.Data.Entities.Event>
 @{
     ViewData["Title"] = "My Events";
+    Layout = "_OrganizerLayout";
 }
 
-<div class="container-fluid">
-    <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-gradient-primary text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h1 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>My Events</h1>
-                            <p class="mb-0">Manage your events and track performance</p>
-                        </div>
-                        <div>
-                            <a href="@Url.Action("CreateEvent")" class="btn btn-light btn-lg">
-                                <i class="fas fa-plus me-2"></i>Create New Event
-                            </a>
-                        </div>
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card bg-gradient-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>My Events</h1>
+                        <p class="mb-0">Manage your events and track performance</p>
+                    </div>
+                    <div>
+                        <a href="@Url.Action("CreateEvent")" class="btn btn-light btn-lg">
+                            <i class="fas fa-plus me-2"></i>Create New Event
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Events Statistics -->
     <div class="row mb-4">
@@ -194,7 +194,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <style>
 .bg-gradient-primary {

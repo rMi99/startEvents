@@ -1,17 +1,17 @@
 @model IEnumerable<online_event_booking.Data.Entities.Event>
 @{
     ViewData["Title"] = "Event Management";
+    Layout = "_AdminLayout";
 }
 
-<div class="container-fluid">
-    <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-gradient-success text-white">
-                <div class="card-body">
-                    <h1 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Event Management</h1>
-                    <p class="mb-0">Manage all events in the system</p>
-                </div>
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card bg-gradient-success text-white">
+            <div class="card-body">
+                <h1 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Event Management</h1>
+                <p class="mb-0">Manage all events in the system</p>
+            </div>
             </div>
         </div>
     </div>
@@ -142,7 +142,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <style>
 .stats-card {
