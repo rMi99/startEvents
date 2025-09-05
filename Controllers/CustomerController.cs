@@ -22,6 +22,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Customer Dashboard";
+            ViewData["ActivePage"] = "Dashboard";
             
             var userId = _userManager.GetUserId(User);
             if (userId == null) return RedirectToAction("Login", "Account");
@@ -58,6 +59,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> MyTickets()
         {
             ViewData["Title"] = "My Tickets";
+            ViewData["ActivePage"] = "MyTickets";
             
             var userId = _userManager.GetUserId(User);
             var tickets = await _context.Tickets
@@ -173,6 +175,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> Profile()
         {
             ViewData["Title"] = "My Profile";
+            ViewData["ActivePage"] = "Profile";
             
             var userId = _userManager.GetUserId(User);
             if (userId == null) return RedirectToAction("Login", "Account");
@@ -185,6 +188,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> LoyaltyPoints()
         {
             ViewData["Title"] = "Loyalty Points";
+            ViewData["ActivePage"] = "LoyaltyPoints";
             
             var userId = _userManager.GetUserId(User);
             if (userId == null) return RedirectToAction("Login", "Account");

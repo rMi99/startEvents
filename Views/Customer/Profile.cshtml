@@ -1,0 +1,134 @@
+@model online_event_booking.Data.Entities.ApplicationUser
+@{
+    ViewData["Title"] = "My Profile";
+    ViewData["ActivePage"] = "Profile";
+    Layout = "_CustomerLayout";
+}
+
+<div class="customer-profile">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="user-avatar-large mb-3">
+                        <i class="fas fa-user fa-4x text-muted"></i>
+                    </div>
+                    <h4>@Model.FullName</h4>
+                    <p class="text-muted">@Model.Email</p>
+                    <p class="text-muted">
+                        <i class="fas fa-calendar me-2"></i>Member since @Model.CreatedAt.ToString("MMM yyyy")
+                    </p>
+                    @if (Model.LastLogin.HasValue)
+                    {
+                        <p class="text-muted">
+                            <i class="fas fa-clock me-2"></i>Last login: @Model.LastLogin.Value.ToString("MMM dd, yyyy")
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>Profile Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="UpdateProfile" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="FullName" class="form-label">Full Name</label>
+                                <input asp-for="FullName" class="form-control" readonly />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label">Email Address</label>
+                                <input asp-for="Email" class="form-control" readonly />
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Address</label>
+                            <textarea asp-for="Address" class="form-control" rows="3" placeholder="Enter your address"></textarea>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Update Profile
+                            </button>
+                            <a asp-area="Identity" asp-page="/Account/Manage/ChangePassword" class="btn btn-outline-secondary">
+                                <i class="fas fa-lock me-2"></i>Change Password
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Account Summary
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <div class="border-end">
+                                <h3 class="text-primary mb-1">0</h3>
+                                <small class="text-muted">Total Bookings</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="border-end">
+                                <h3 class="text-success mb-1">$0.00</h3>
+                                <small class="text-muted">Total Spent</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 class="text-warning mb-1">0</h3>
+                            <small class="text-muted">Loyalty Points</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .user-avatar-large {
+        width: 120px;
+        height: 120px;
+        background: #f8f9fa;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .border-end {
+        border-right: 1px solid #dee2e6;
+    }
+    
+    @@media (max-width: 768px) {
+        .border-end {
+            border-right: none;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+    }
+</style>

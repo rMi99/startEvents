@@ -24,6 +24,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Admin Dashboard";
+            ViewData["ActivePage"] = "Dashboard";
             
             // Get dashboard statistics
             var totalUsers = await _userManager.Users.CountAsync();
@@ -56,6 +57,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> Users()
         {
             ViewData["Title"] = "User Management";
+            ViewData["ActivePage"] = "Users";
             
             var users = await _userManager.Users.ToListAsync();
             var userRoles = new Dictionary<string, IList<string>>();
@@ -72,6 +74,7 @@ namespace online_event_booking.Controllers
         public async Task<IActionResult> Events()
         {
             ViewData["Title"] = "Event Management";
+            ViewData["ActivePage"] = "Events";
             
             var events = await _context.Events
                 .Include(e => e.Venue)
@@ -85,12 +88,14 @@ namespace online_event_booking.Controllers
         public IActionResult Reports()
         {
             ViewData["Title"] = "Reports & Analytics";
+            ViewData["ActivePage"] = "Reports";
             return View();
         }
 
         public IActionResult Settings()
         {
             ViewData["Title"] = "System Settings";
+            ViewData["ActivePage"] = "Settings";
             return View();
         }
     }

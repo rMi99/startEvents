@@ -1,17 +1,17 @@
 @model online_event_booking.Data.Entities.Event
 @{
     ViewData["Title"] = "Create New Event";
+    Layout = "_OrganizerLayout";
 }
 
-<div class="container-fluid">
-    <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-gradient-success text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h1 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Create New Event</h1>
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card bg-gradient-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Create New Event</h1>
                             <p class="mb-0">Fill in the details to create your event</p>
                         </div>
                         <div>
@@ -177,7 +177,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <style>
 .bg-gradient-success {

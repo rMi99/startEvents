@@ -2,20 +2,20 @@
 @{
     ViewData["Title"] = "User Management";
     var userRoles = ViewBag.UserRoles as Dictionary<string, IList<string>>;
+    Layout = "_AdminLayout";
 }
 
-<div class="container-fluid">
-    <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-gradient-info text-white">
-                <div class="card-body">
-                    <h1 class="mb-0"><i class="fas fa-users me-2"></i>User Management</h1>
-                    <p class="mb-0">Manage all users and their roles</p>
-                </div>
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card bg-gradient-info text-white">
+            <div class="card-body">
+                <h1 class="mb-0"><i class="fas fa-users me-2"></i>User Management</h1>
+                <p class="mb-0">Manage all users and their roles</p>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Users Table -->
     <div class="row">
@@ -174,11 +174,10 @@
             </div>
         </div>
     </div>
-</div>
 
 <style>
 .bg-gradient-info {
-    background: linear-gradient(135deg, #17a2b8 0%, #007bff 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .user-avatar {
