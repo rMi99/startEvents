@@ -2,8 +2,8 @@
 {
     public class EventPrice
     {
-        public int Id { get; set; }
-        public int EventId { get; set; }
+        public Guid Id { get; set; }
+        public Guid EventId { get; set; }
         public Event Event { get; set; } = default!;
         public string Category { get; set; } = default!;
         public int Stock { get; set; }

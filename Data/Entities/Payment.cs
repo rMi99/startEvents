@@ -2,10 +2,10 @@
 {
     public class Payment
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string CustomerId { get; set; } = default!;
         public ApplicationUser Customer { get; set; } = default!;
-        public int TicketId { get; set; }
+        public Guid TicketId { get; set; }
         public Ticket Ticket { get; set; } = default!;
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;

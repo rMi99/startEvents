@@ -103,7 +103,7 @@ namespace online_event_booking.Controllers
             return View(eventModel);
         }
 
-        public async Task<IActionResult> EventTickets(int? id)
+        public async Task<IActionResult> EventTickets(Guid? id)
         {
             ViewData["Title"] = "Event Tickets";
             ViewData["ActivePage"] = "EventTickets";

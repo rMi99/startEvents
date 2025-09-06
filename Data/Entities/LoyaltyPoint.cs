@@ -2,7 +2,7 @@
 {
     public class LoyaltyPoint
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string CustomerId { get; set; } = default!;
         public ApplicationUser Customer { get; set; } = default!;
         public int Points { get; set; }
