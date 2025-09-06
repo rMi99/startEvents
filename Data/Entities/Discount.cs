@@ -2,9 +2,8 @@
 {
     public class Discount
     {
-
-        public int Id { get; set; }
-        public int? EventId { get; set; }
+        public Guid Id { get; set; }
+        public Guid? EventId { get; set; }
         public Event? Event { get; set; }
         public string Code { get; set; } = default!;
         public string Type { get; set; } = "Percent"; // Percent, Amount

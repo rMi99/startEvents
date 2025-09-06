@@ -3,10 +3,10 @@ using System.Net.Sockets;
 
 namespace online_event_booking.Data.Entities
 {
-    public class Event: CommonProps
+    public class Event : CommonProps
     {
-        public int Id { get; set; }
-        public int VenueId { get; set; }
+        public Guid Id { get; set; }
+        public Guid VenueId { get; set; }
         public Venue Venue { get; set; } = default!;
         public string OrganizerId { get; set; } = default!;
         public ApplicationUser Organizer { get; set; } = default!;

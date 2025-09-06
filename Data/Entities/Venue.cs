@@ -2,9 +2,9 @@
 
 namespace online_event_booking.Data.Entities
 {
-    public class Venue: CommonProps
+    public class Venue : CommonProps
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = default!;
         public string Location { get; set; } = default!;
         public int Capacity { get; set; }

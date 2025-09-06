@@ -86,7 +86,7 @@ namespace online_event_booking.Controllers
             return View(events);
         }
 
-        public async Task<IActionResult> EventDetails(int id)
+        public async Task<IActionResult> EventDetails(Guid id)
         {
             ViewData["Title"] = "Event Details";
             
@@ -104,7 +104,7 @@ namespace online_event_booking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BookTicket(int eventId, int priceId, int quantity)
+        public async Task<IActionResult> BookTicket(Guid eventId, Guid priceId, int quantity)
         {
             var userId = _userManager.GetUserId(User);
             var eventEntity = await _context.Events.FindAsync(eventId);
