@@ -1,0 +1,62 @@
+#!/bin/bash
+
+echo "=========================================="
+echo "       StarEvents - Quick Setup Script"
+echo "=========================================="
+echo
+
+echo "[1/6] Checking .NET 8.0 SDK..."
+if ! command -v dotnet &> /dev/null; then
+    echo "ERROR: .NET 8.0 SDK not found. Please install from https://dotnet.microsoft.com/download/dotnet/8.0"
+    exit 1
+fi
+echo ".NET SDK found!"
+echo
+
+echo "[2/6] Restoring NuGet packages..."
+dotnet restore
+if [ $? -ne 0 ]; then
+    echo "ERROR: Failed to restore packages"
+    exit 1
+fi
+echo
+
+echo "[3/6] Building the application..."
+dotnet build
+if [ $? -ne 0 ]; then
+    echo "ERROR: Build failed"
+    exit 1
+fi
+echo
+
+echo "[4/6] Checking database connection..."
+echo "Please ensure MySQL server is running and database 'EventBookingDB' exists."
+echo "If not, please run MySQL Workbench and import Database/dump-eventbookingdb-202508241021.sql"
+echo
+read -p "Press Enter to continue..."
+
+echo "[5/6] Applying database migrations..."
+dotnet ef database update
+if [ $? -ne 0 ]; then
+    echo "WARNING: Migration failed. This might be normal if database is already set up."
+fi
+echo
+
+echo "[6/6] Setup complete!"
+echo
+echo "=========================================="
+echo "       Ready to run StarEvents!"
+echo "=========================================="
+echo
+echo "To start the application, run: dotnet run"
+echo "Application will be available at: http://localhost:5105"
+echo
+echo "Default login accounts:"
+echo "- Admin: admin@starlevents.com / Password@123"
+echo "- Organizer: organizer@starlevents.com / Password@123"
+echo "- Customer: customer@starlevents.com / Password@123"
+echo
+read -p "Press Enter to start the application now..."
+
+echo "Starting application..."
+dotnet run
