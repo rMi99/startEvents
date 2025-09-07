@@ -35,6 +35,7 @@ using (var scope = app.Services.CreateScope())
 
     await UserRoleSeeder.SeedRoles(serviceProvider);
     await UserRoleSeeder.SeedInitialUsers(serviceProvider);
+    await VenueSeeder.SeedVenues(serviceProvider);
 }
 
 // Configure the HTTP request pipeline.

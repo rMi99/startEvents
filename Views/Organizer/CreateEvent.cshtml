@@ -66,7 +66,13 @@
                                 <label asp-for="VenueId" class="form-label">Venue <span class="text-danger">*</span></label>
                                 <select asp-for="VenueId" class="form-select">
                                     <option value="">Select Venue</option>
-                                    <!-- Venues would be populated from ViewBag or ViewData -->
+                                    @if (ViewBag.Venues != null)
+                                    {
+                                        foreach (var venue in ViewBag.Venues)
+                                        {
+                                            <option value="@venue.Id">@venue.Name (@venue.Location)</option>
+                                        }
+                                    }
                                 </select>
                                 <span asp-validation-for="VenueId" class="text-danger"></span>
                                 <small class="form-text text-muted">

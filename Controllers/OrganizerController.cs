@@ -79,6 +79,9 @@ namespace online_event_booking.Controllers
         {
             ViewData["Title"] = "Create New Event";
             ViewData["ActivePage"] = "CreateEvent";
+            // Get venues from database
+            var venues = _context.Venues.ToList();
+            ViewBag.Venues = venues;
             return View();
         }
 
